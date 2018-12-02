@@ -1,0 +1,26 @@
+{
+  "name": "schedulizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://lswjin@bitbucket.org/lswjin/schedulizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/lswjin/schedulizer#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4",
+    "sequelize": "^4.41.2",
+    "sequelize-cli": "^5.3.0",
+    "uuid": "^3.3.2"
+  }
+}
