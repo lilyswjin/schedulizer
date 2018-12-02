@@ -61,14 +61,14 @@ app.get('/projects', (req, res) => {
 });
 
 
-
-// set up a GET route at /schedule/:projectID that sends back a list of employees not already assigned to the project, sorted by distance
-app.get('/schedule/:projectID', (req, res) => {
-
+// set up a GET route at /project/:projectID that sends back a list of employees not already assigned to the project, sorted by distance
+app.get('/projects/:projectID', (req, res) => {
     let projectID = req.params.projectID
-    let clientLocation = {};
+    let clientLat = 0
+    let clientLong = 0
+    let assigned = []
   
-
+    // extract location of current client
     db.Project.findOne({
         where: { id: projectID},
         include: [
@@ -77,36 +77,49 @@ app.get('/schedule/:projectID', (req, res) => {
     })
     .then( project => {
        let client = project.Client.dataValues;
-        clientLocation = sequelize.literal(`('POINT(${client.long} ${client.lat})')`);
-        // console.log(clientLocation)
+        // clientLocation = sequelize.literal(`('POINT(${client.long} ${client.lat})')`);
+        clientLat = Number(client.lat);
+        clientLong = Number(client.long);
     })
 
-    // var distance = sequelize.fn('ST_Distance_Sphere', sequelize.literal('location'), location);
 
-    console.dir(distance(-79.39, 43.64, -79.38, 43.63, "K"))
-
-    db.Employee.findAll({
+    // find all employees already scheduled on this project
+    db.Schedule.findAll({
         where: {
-            [Op.or]: [
-                {project_id: null},
-                {project_id: {
-                    [Op.not]: projectID
-                }}
-            ]
+            project_id: projectID
+            
         }
     })
+    .then( assignedEmployees => {
+        assigned = (assignedEmployees.map(employee => {
+            return employee.dataValues.employee_id
+        }))
+      
+    })
+
+    // return list of all employees that are not already assigned to the current project
+    db.Employee.findAll({
+        where: {
+            id: {
+                [Op.not]:  assigned
+            }
+        }
+    })
+    // return array of employees retrieved from the database
     .then(employees => {
+        console.log(employees)
 
         let employeeList = employees.map( (employee) => {
             return employee.dataValues
         })
-        // console.log(employeeList)
-
+  
+        // for each employee, use distance() to calculate and store the distance from the client
         employeeList.forEach(employee => {
-            let employeeLocation = sequelize.literal(`('POINT(${employee.long} ${employee.lat})')`);
-            let distance = sequelize.fn('ST_Distance_Sphere', clientLocation, employeeLocation);
-
+            let travelDist = distance(employee.long, employee.lat, clientLong, clientLat, "K" )
+            employee.distance = travelDist
         });
+
+        employeeList.sort((a, b) => a.distance - b.distance);
 
         return res.status(200).json(employeeList)
     })
@@ -116,22 +129,67 @@ app.get('/schedule/:projectID', (req, res) => {
 })
 
 
-// Set up a POST route at /schedule that lets you assign a project id to an employee as well as a start date/ end date. if no end date, defaults to 1 day
+// Set up a POST route at /project that lets you assign a project id to an employee as well as a start date/ end date. if no end date, defaults to 1 day
 
-app.post('/schedule/:projectID', (req, res) => {
+app.post('/project/:projectID', (req, res) => {
 
     let projectID = req.params.projectID
-    let newAllocation = req.body
+    let {employeeID, startDate, endDate} = req.body
+    let projectStart = 0;
+    let projectEnd = 0;
+    let employeeProjects = []
+    let isProjectOverlap = false
 
-// still needs data validation
-
-    db.Schedule.create({
-        project_id: projectID,
-        employee_id: newAllocation.employeeID,
-        start_date: newAllocation.startDate,
-        end_date: newAllocation.endDate
+    db.Project.findOne({
+        where: { id: projectID},
+    })
+    .then( project => {
+       projectStart = project.start_date;
+       projectEnd = project.end_date;
+        
     })
 
+    db.Schedule.findAll({
+        where: {
+            employee_id: employeeID
+        }
+    })
+    .then( employee => {
+        employeeProjects = (employee.map( employee => {
+            return employee.dataValues
+        }))    
+        
+        // validate data and ensure that project dates do not overlap for the employee
+        employeeProjects.forEach( (project) => {
+            if ( project.start_date < endDate && project.start_date > startDate && project.end_date > startDate && project.end_date < endDate ) {
+                isProjectOverlap = true;
+            }
+        })
+    })
+
+    // check that dates are within project dates
+    if ( (startDate > projectStart) && (startDate < projectEnd) && (endDate > projectStart) && (endDate < projectEnd) 
+        // check that dates do not overlap with any projects already assigned to the employee
+        && (isProjectOverlap === false)) { 
+
+            // create database entry in schedule to associate the employee with the project
+            db.Schedule.create({
+                project_id: projectID,
+                employee_id: employeeID,
+                start_date: startDate,
+                end_date: endDate
+            })
+
+            // return json 
+            .then( entry => {
+                return res.status(200).json(entry)
+            })
+            .catch(err => {
+                return res.status(500).json(err);
+            })
+    } else {
+        return res.status(500).json({error: "Invalid project dates. Ensure that employee dates do not conflict."})
+    }
 })
 
 
