@@ -98,6 +98,7 @@ app.get('/projects/:projectID', (req, res) => {
     })
 
     // return list of all employees that are not already assigned to the current project
+
     db.Employee.findAll({
         where: {
             id: {
@@ -107,8 +108,6 @@ app.get('/projects/:projectID', (req, res) => {
     })
     // return array of employees retrieved from the database
     .then(employees => {
-        console.log(employees)
-
         let employeeList = employees.map( (employee) => {
             return employee.dataValues
         })

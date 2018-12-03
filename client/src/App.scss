@@ -1,32 +1,120 @@
+// GLOBAL VARIABLES
+$blue: rgb(85, 174, 247);
+$grey: rgb(38, 42, 51);
+$lightgrey: rgb(58, 64, 77);
+$palegrey: rgb(168, 190, 211);
+$gold: rgb(255, 208, 0);
+$white: white;
+
+
+@font-face{
+  font-family: norwester;
+  src: url('/font/norwester.otf')
+}  
+
+// BODY STYLES
+
+* {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  background-color: $white;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.navbar {
+  position: fixed;
+  min-width: 100vw;
+  height: 1rem;
   color: white;
+  background-color: $grey;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  font-weight: bold;
+  padding: 1rem;
+  box-shadow: 0 5px 10px rgba(0,0,0,.5);
+  div.logo {
+    width: 20%;
+    padding-left: 2.5%;
+    a:any-link {
+      font-family: norwester;
+      text-transform: uppercase;
+      font-size: 25px;
+    } 
+  }
+  &__links {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 5%;
+
+  }
+  a:any-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $white;
+    font-size: 16px;
+    &:hover {
+      color: $gold;
+      background-color: $lightgrey;
+    }
+    padding: .5rem 5% .5rem 5%;
+  }
 }
 
-.App-link {
-  color: #61dafb;
+.main {
+  color: $palegrey;
+  height: 100%;
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.section {
+  margin: 3rem;
+  
+  width: 100%;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100%;
+  background-color: $grey;
+  border-right: $white 5px solid;
+}
+
+.employee, .client, .project {
+  width: 100%;
+  padding-top: 2.5%;
+  &__row {
+    border-radius: 5px;
+    padding: 1rem;
+    &:first-of-type {
+      background-color: $lightgrey;
+      font-weight: bold;
+      color: white;
+      font-size: 1.25rem;
+      height: 2rem;
+   
+    }
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1.5%;
+    background-color: $blue;
+    color: white;
+    span {
+      width: 10rem;
+      vertical-align: middle;
+      font-size: 1rem;
+    }
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+
+@media only screen and (max-width: 950px) {
+
 }

@@ -1,56 +1,164 @@
+@font-face {
+  font-family: norwester;
+  src: url("/font/norwester.otf");
+}
+
+* {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  background-color: white;
 }
 
-.App-logo {
-  -webkit-animation: App-logo-spin infinite 20s linear;
-          animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar {
+  position: fixed;
+  min-width: 100vw;
+  height: 1rem;
+  color: white;
+  background-color: #262a33;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  font-size: calc(10px + 2vmin);
+  vertical-align: middle;
+  font-weight: bold;
+  padding: 1rem;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar div.logo {
+  width: 20%;
+  padding-left: 2.5%;
+}
+
+.navbar div.logo a:-webkit-any-link {
+  font-family: norwester;
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.navbar div.logo a:-moz-any-link {
+  font-family: norwester;
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.navbar div.logo a:any-link {
+  font-family: norwester;
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.navbar__links {
+  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-right: 5%;
+}
+
+.navbar a:-webkit-any-link {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  font-size: 16px;
+  padding: .5rem 5% .5rem 5%;
+}
+
+.navbar a:-moz-any-link {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  font-size: 16px;
+  padding: .5rem 5% .5rem 5%;
+}
+
+.navbar a:any-link {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  font-size: 16px;
+  padding: .5rem 5% .5rem 5%;
+}
+
+.navbar a:-webkit-any-link:hover {
+  color: #ffd000;
+  background-color: #3a404d;
+}
+
+.navbar a:-moz-any-link:hover {
+  color: #ffd000;
+  background-color: #3a404d;
+}
+
+.navbar a:any-link:hover {
+  color: #ffd000;
+  background-color: #3a404d;
+}
+
+.main {
+  color: #a8bed3;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.section {
+  margin: 3rem;
+  width: 100%;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100%;
+  background-color: #262a33;
+  border-right: white 5px solid;
+}
+
+.employee, .client, .project {
+  width: 100%;
+  padding-top: 2.5%;
+}
+
+.employee__row, .client__row, .project__row {
+  border-radius: 5px;
+  padding: 1rem;
+  width: 95%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1.5%;
+  background-color: #55aef7;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.employee__row:first-of-type, .client__row:first-of-type, .project__row:first-of-type {
+  background-color: #3a404d;
+  font-weight: bold;
+  color: white;
+  font-size: 1.25rem;
+  height: 2rem;
 }
 
-@-webkit-keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+.employee__row span, .client__row span, .project__row span {
+  width: 10rem;
+  vertical-align: middle;
+  font-size: 1rem;
 }
 /*# sourceMappingURL=App.css.map */
