@@ -1,5 +1,6 @@
 // GLOBAL VARIABLES
 $blue: rgb(85, 174, 247);
+$lightblue: rgb(184, 223, 255);
 $grey: rgb(38, 42, 51);
 $lightgrey: rgb(58, 64, 77);
 $palegrey: rgb(168, 190, 211);
@@ -16,8 +17,13 @@ $white: white;
 
 * {
   margin: 0;
+  // overflow-x: hidden;
+  // font-family: Arial, Helvetica, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.body {
   overflow-x: hidden;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .App {
@@ -35,7 +41,7 @@ $white: white;
   align-items: center;
   vertical-align: middle;
   font-weight: bold;
-  padding: 1rem;
+  padding: 2rem;
   box-shadow: 0 5px 10px rgba(0,0,0,.5);
   div.logo {
     width: 20%;
@@ -66,6 +72,33 @@ $white: white;
   }
 }
 
+.sidebar {
+  display: flex;
+  justify-content: space-evenly;
+  &__links {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-right: 5%;
+    vertical-align: center;
+    text-align: center;
+    font-weight: bolder;
+  }
+  a:any-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $white;
+    font-size: 16px;
+    &:hover {
+      color: $gold;
+      background-color: $lightgrey;
+    }
+    padding: .5rem 5% .5rem 5%;
+  }
+
+}
+
 .main {
   color: $palegrey;
   height: 100%;
@@ -74,7 +107,7 @@ $white: white;
 
 .section {
   margin: 3rem;
-  
+  padding: 4% 2% 2% 2%;
   width: 100%;
 }
 
@@ -85,32 +118,192 @@ $white: white;
   border-right: $white 5px solid;
 }
 
-.employee, .client, .project {
-  width: 100%;
-  padding-top: 2.5%;
-  &__row {
-    border-radius: 5px;
-    padding: 1rem;
-    &:first-of-type {
-      background-color: $lightgrey;
-      font-weight: bold;
-      color: white;
-      font-size: 1.25rem;
-      height: 2rem;
-   
-    }
-    width: 95%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 1.5%;
-    background-color: $blue;
+.ReactTable {
+  .rt-thead, .-header {
+    border-top-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    padding: .5rem;
+    background-color: $lightgrey;
+    font-weight: bold;
     color: white;
+    font-size: 2rem;
+  }
+  .rt-tbody {
+    margin: .5rem 0 .5rem 0;
+    .rt-tr-group {
+      background-color: $blue;
+      color: white;
+      border-top-right-radius: 2rem;
+      border-bottom-left-radius: 2rem;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  }
+  .previous, .next, .btn {
+    button {
+      background-color: $lightblue;
+      color: $grey;
+      
+    }
+  }
+}
+
+.ReactTable.-striped .rt-tr.-odd {
+  background: rgba(0, 0, 0, 0.03);
+  border: none;
+}
+
+.ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+  background-color: $lightblue;
+  border-radius: 2rem;
+  color: $grey;
+}
+
+// Drop down menu styles 
+
+.dropdown {
+  position: absolute;
+  button.btn-default {
+    padding: 0;
+    margin: 0;
+    font-size: 2rem;
+    background-color: transparent;
+  }
+  &-menu {
+    background-color: $grey;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    li>a {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $white;
+    }
+  }
+}
+.open>.dropdown-toggle.btn-default {
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0;
+  margin: 0;
+  &:hover, &:focus, &:active {
+    background-color: transparent;
+    border-color: transparent;
+    border: none;
+    padding: 0;
+  }
+}
+
+
+
+// Add employee module
+
+.assignedEmployees {
+  display: flex;
+  padding: 1rem;
+  width: 92.5%;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1.5%;
+  background-color: $blue;
+  color: white;
     span {
       width: 10rem;
       vertical-align: middle;
       font-size: 1rem;
     }
+}
+
+.form-container {
+  display: flex;
+  padding: 2rem;
+
+}
+
+.addEmployee {
+  display: flex;
+  flex-direction: column;
+  &__list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 2.5vh;
+    overflow-x: scroll;
+    span {
+      width: 6rem;
+    }
+  }
+}
+
+.project__details {
+  display: flex;
+  margin-bottom: 1rem;
+  border-top-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+
+  box-shadow: .25rem .5rem .1rem $palegrey;
+  background: $lightblue;
+  color: black;
+  padding: 1rem;
+  &--info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  &--name {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+ 
+  }
+  &--date {
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  &--list {
+    border: 1px $blue solid;
+    color: white;
+    background-color: $grey;
+    display: flex;
+    justify-content: space-evenly;
+    span {
+      width: 6rem;
+    }
+  }
+}
+
+// styles for floating button
+.client, .employee, .project {
+  position: relative;
+}
+
+.newItem {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: transparent;
+  color: white;
+  border: none;
+  text-align: center;
+  position: absolute;
+  top: .5rem;
+  right: 10%;
+  &:hover {
+    color: $gold;
+  }
+}
+
+.client {
+  .newItem {
+    right: 13.5%;
+  }
+}
+
+.project {
+  .newItem {
+    right: 7.5%;
   }
 }
 

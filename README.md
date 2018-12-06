@@ -1,2 +1,2 @@
-# schedulizer
+# Schedulizer
 

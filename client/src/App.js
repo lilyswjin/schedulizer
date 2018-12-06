@@ -5,7 +5,9 @@ import NavBar from './Navbar'
 import Sidebar from './Sidebar'
 import EmployeeList from './EmployeeList';
 import ClientList from './ClientList';
-import ProjectList from './ProjectList';
+// import ProjectList from './ProjectList';
+import AddEmployee from './AddEmployee';
+import Project from './Project'
 
 import './App.css';
 
@@ -16,12 +18,14 @@ class App extends Component {
         <div className="App">
           <NavBar/>
           <main className="main">
-            {/* <Sidebar/> */}
+            <Sidebar/>
             <section className="section">
             <Switch>
+              {/* <Route path="/" exact component={Project} /> */}
               <Route path="/employees" exact component={EmployeeList} />
               <Route path="/clients" exact component={ClientList} />
-              <Route path="/projects" exact component={ProjectList} />
+              <Route path="/projects" exact component={Project} />
+              <Route path="/projects/:id" exact component={AddEmployee} />
             </Switch>
             </section>
           </main>

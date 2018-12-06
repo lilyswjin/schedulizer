@@ -20,8 +20,8 @@ module.exports = {
       },
       {
         name: 'DigiArt',
-        lat: 43.669020,
-        long: -79.337310
+        lat: 41.669020,
+        long: -78.337310
       }
     ], {});
   },

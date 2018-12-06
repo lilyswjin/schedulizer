@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
+import ReactTable from 'react-table';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export default class EmployeeList extends Component {
 
@@ -20,28 +22,48 @@ export default class EmployeeList extends Component {
     }
 
     render() {
-        let employeeRows = this.state.employeeList.map((employee) => {
+        const data = this.state.employeeList.map((employee)=>{
             return (
-                <div className="employee__row" key={employee.id} >
-                    <span>{employee.id}</span> 
-                    <span>{employee.first_name}</span> 
-                    <span>{employee.last_name}</span>
-                    <span></span>
-                    {/* <span><img src="./assets/icons/employee2.svg" height="25px" width="25px" alt="employee"/></span> */}
-                </div>
+                {
+                    id: employee.id,
+                    firstName: employee.first_name,
+                    lastName: employee.last_name
+                }
             )
-        });
+        })
+        
+        const columns = [
+            {
+                Header: "ID",
+                accessor: 'id'
+            }, 
+            {
+                Header: "First Name",
+                accessor: 'firstName'
+            },
+            {
+                Header: "Last Name",
+                accessor: 'lastName'
+            },
+            {
+                Header: "",
+                accessor: "",
+                Cell: row => {
+                    return (
+                        <DropdownButton noCaret>
+                            <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
+                            <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
+                        </DropdownButton>
+                    )
+                }
+            }
+        ];
 
         return (
             <div className="employee">
-            <div className="employee__row">
-                <span>ID</span>
-                <span>First Name</span>
-                <span>Last Name</span>
-                <span><i className="fas fa-ellipsis-h"></i></span> 
+              <ReactTable data={data} columns={columns} minRows={1} defaultPageSize={8} className="-striped -highlight" />
+              <button className="newItem">++<i className="fas fa-male"></i></button>
             </div>
-            {employeeRows}
-        </div>
         )
     }
 }

@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-
+import ReactTable from 'react-table'
+import { DropdownButton, MenuItem } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export default class ClientList extends Component {
 
     state = {
-        clientList: []
+        clientList: [],
+        dropdownOpen: false
     }
 
     componentDidMount() {
@@ -19,27 +22,53 @@ export default class ClientList extends Component {
         })  
     }
 
+    toggle = () => {
+        this.setState( prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }))
+    }
+
     render() {
-        let clientRows = this.state.clientList.map((client) => {
+
+        // set up data structure for react table
+        const data = this.state.clientList.map((client)=>{
             return (
-                <div className="client__row" key={client.id} >
-                    <span>{client.id}</span> 
-                    <span>{client.name}</span> 
-                    <span></span>
-                    {/* <span><img src="./assets/icons/employee2.svg" height="25px" width="25px" alt="employee"/></span> */}
-                </div>
+                {
+                    id: client.id,
+                    name: client.name
+                }
             )
-        });
+        })
+        
+          // set up heading structure for react table
+        const columns = [
+            {
+                Header: "ID",
+                accessor: 'id'
+            }, 
+            {
+                Header: "Client Name",
+                accessor: 'name'
+            },
+            {
+                Header: "",
+                accessor: "",
+                Cell: row => {
+                    return (
+                        <DropdownButton noCaret>
+                            <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
+                            <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
+                        </DropdownButton>
+                    )
+                }
+            }
+        ];
 
         return (
             <div className="client">
-            <div className="client__row">
-                <span>ID</span>
-                <span>Client Name</span>
-                <span><i className="fas fa-ellipsis-h"></i></span> 
+                <ReactTable data={data} columns={columns} defaultPageSize={8}  className="-striped -highlight" minRows={1}/>
+                <button className="newItem">++<i className="fas fa-building"></i></button>
             </div>
-            {clientRows}
-        </div>
         )
     }
 }
