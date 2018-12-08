@@ -6,10 +6,11 @@ import Sidebar from './Sidebar'
 import EmployeeList from './EmployeeList';
 import ClientList from './ClientList';
 // import ProjectList from './ProjectList';
-import AddEmployee from './AddEmployee';
+// import AddEmployee from './AddEmployee';
 import Project from './Project'
 
 import './App.css';
+import Schedule from './Schedule';
 
 class App extends Component {
   render() {
@@ -25,7 +26,8 @@ class App extends Component {
               <Route path="/employees" exact component={EmployeeList} />
               <Route path="/clients" exact component={ClientList} />
               <Route path="/projects" exact component={Project} />
-              <Route path="/projects/:id" exact component={AddEmployee} />
+              {/* <Route path="/projects/:id" exact component={AddEmployee} /> */}
+              <Route path="/schedule" exact component={Schedule} />
             </Switch>
             </section>
           </main>

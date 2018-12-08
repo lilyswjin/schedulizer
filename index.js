@@ -85,7 +85,7 @@ app.get('/projects', (req, res) => {
 
 // Set up a GET route that sends back a list of employees already assigned to the project
 app.get('/projects/:projectID', (req, res) => {
-    let assigned = [];
+    let assignedList = [];
     let projectID = req.params.projectID
 
     // search schedule for the project whose ID is being requested and return a list of assigned employees 
@@ -111,17 +111,19 @@ app.get('/projects/:projectID', (req, res) => {
             }
         })
         .then(employees => {
+            let newArray = []
             // attach start and end dates for each employee and return array to client
-            employees.map(employee => employee.dataValues).forEach((employee, i) => {
-                assignedList.forEach((assignedEmployee => {
-                    if (employee.id === assignedEmployee.employee_id){
-                        employee.start_date = assignedEmployee.start_date;
-                        employee.end_date = assignedEmployee.end_date;
-                        employee.project_id = projectID
-                    }
-                }))
-            })
-            return res.status(200).json(employees)
+            let employeeArray = (employees.map(employee => employee.dataValues))
+
+            if (employeeArray.length > 0) {
+                employeeArray.forEach((employee, i) => {
+                    employee.start_date = assignedList[i].start_date;
+                    employee.end_date = assignedList[i].end_date;
+                    employee.project_id = projectID
+              
+                })
+            }
+            return res.status(200).json(employeeArray)
 
         })
         .catch(err => {
@@ -201,23 +203,20 @@ app.get('/schedule/:projectID', (req, res) => {
 // Set up a POST route at /clients that lets you add a new client to the database 
 
 app.post('/clients', (req, res) => {
-    let { clientName, address } = req.params.body;
+    let { name, address } = req.body;
+    
     let lat, long = 0;
-
-    // let address = "460 King Street West";
-    // let clientName = "New Client"
 
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`;
     
     // validation layer
 
-    if (typeof address === "string" && typeof clientName === "string" ) {
+    if (typeof address === "string" && typeof name === "string") {
 
         // send get request to API 
         fetch(url)
             .then(resp => {
                 return resp.json()
-                // console.log(resp)
             })
             .then(json => {
                 lat = json.results[0].geometry.location.lat
@@ -231,7 +230,7 @@ app.post('/clients', (req, res) => {
                 let country = address[6].long_name;
     
                 db.Client.create({
-                    name: clientName,
+                    name: name,
                     lat: lat,
                     long: long,
                     street: street,
@@ -248,7 +247,6 @@ app.post('/clients', (req, res) => {
                 })
             })
             .catch(err => {
-                console.log(err)
                 return res.status(500).json(err);
             })
     }
@@ -259,8 +257,7 @@ app.post('/clients', (req, res) => {
 
 
 app.post('/employees', (req, res) => {
-    let { firstName, lastName, address } = req.params.body;
-    console.log(req.params.body)
+    let { firstName, lastName, address } = req.body;
     
     let lat, long = 0;
 
@@ -274,7 +271,6 @@ app.post('/employees', (req, res) => {
         fetch(url)
             .then(resp => {
                 return resp.json()
-                // console.log(resp)
             })
             .then(json => {
                 lat = json.results[0].geometry.location.lat
@@ -306,7 +302,6 @@ app.post('/employees', (req, res) => {
                 })
             })
             .catch(err => {
-                console.log(err)
                 return res.status(500).json(err);
             })
     }

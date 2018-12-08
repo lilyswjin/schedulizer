@@ -16,6 +16,7 @@ export default class Sidebar extends Component {
               <NavLink activeStyle={style} to="/projects"><i className="fas fa-file-alt"></i>  Projects</NavLink>
               <NavLink activeStyle={style} to="/clients"><i className="fas fa-building"></i>  Clients</NavLink>
               <NavLink activeStyle={style} to="/employees"><i className="fas fa-male"></i>  Employees</NavLink>
+              <NavLink activeStyle={style} to="/schedule"><i className="fas fa-male"></i>  Schedule</NavLink>
          </div>
       </aside>
     )

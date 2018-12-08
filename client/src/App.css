@@ -377,6 +377,12 @@
   padding: 2rem;
 }
 
+.new__form .new__name .errorMsg, .new__form .address .errorMsg {
+  color: red;
+  font-size: 12px;
+  font-weight: 100;
+}
+
 .addEmployee {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -413,6 +419,7 @@
   margin-bottom: 1rem;
   border-top-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
+  margin: 2rem;
   -webkit-box-shadow: 0.25rem 0.5rem 0.1rem #a8bed3;
           box-shadow: 0.25rem 0.5rem 0.1rem #a8bed3;
   background: #b8dfff;

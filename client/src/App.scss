@@ -283,6 +283,12 @@ $white: white;
   }
 }
 
+.new__form .new__name .errorMsg, .new__form .address .errorMsg  {
+  color: red;
+  font-size: 12px;
+  font-weight: 100;
+}
+
 .addEmployee {
   display: flex;
   flex-direction: column;
@@ -303,7 +309,7 @@ $white: white;
   margin-bottom: 1rem;
   border-top-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-
+  margin: 2rem;
   box-shadow: .25rem .5rem .1rem $palegrey;
   background: $lightblue;
   color: black;
