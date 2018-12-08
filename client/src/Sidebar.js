@@ -12,11 +12,12 @@ export default class Sidebar extends Component {
 
     return (
       <aside className="sidebar">
+          {/* <div className="logo"><NavLink to="/"><i className=" fas fa-pen-nib"></i>Schedulizer</NavLink></div> */}
           <div className="sidebar__links">
               <NavLink activeStyle={style} to="/projects"><i className="fas fa-file-alt"></i>  Projects</NavLink>
               <NavLink activeStyle={style} to="/clients"><i className="fas fa-building"></i>  Clients</NavLink>
               <NavLink activeStyle={style} to="/employees"><i className="fas fa-male"></i>  Employees</NavLink>
-              <NavLink activeStyle={style} to="/schedule"><i className="fas fa-male"></i>  Schedule</NavLink>
+              {/* <NavLink activeStyle={style} to="/schedule"><i className="fas fa-male"></i>  Schedule</NavLink> */}
          </div>
       </aside>
     )

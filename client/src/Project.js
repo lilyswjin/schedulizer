@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import moment from 'moment';
 // import {isEmpty} from './utils';
 import ReactTable from 'react-table';
@@ -9,7 +10,8 @@ export default class Project extends Component {
         projectList: [],
         assignedEmployees: {},
         isOpen: false,
-        currentProjectID: null
+        currentProjectID: null,
+        table: true
     }
 
     componentDidMount() {
@@ -152,27 +154,28 @@ export default class Project extends Component {
         return (
             <div className="project">
             
-            <ReactTable data={data} 
-                        columns={columns} minRows={1} 
-                        defaultPageSize={8} 
-                        className="-striped -highlight"
-                        SubComponent = { row => {
-                            // console.dir(row)
-                            return (
-                                <div>
-                                {/* {row.original.id} */}
-                                    {employeeTable(row.original.assigned)}
-                                </div>
-                            )
-                        }}
-                         />
-            <button className="newItem">++<i className="fas fa-file-alt"></i></button>
-            <AddEmployee isOpen={this.state.isOpen} 
-                handleClose={this.handleClose} 
-                projectDetails={this.state.projectList[this.state.currentProjectID-1]}
-                assignedEmployees={this.state.assignedEmployees[this.state.currentProjectID]}
-                fetchProjects={this.fetchProjects}
-                projectID={this.state.currentProjectID}/>
+                <ReactTable data={data} 
+                            columns={columns} minRows={1} 
+                            defaultPageSize={8} 
+                            className="-striped -highlight"
+                            SubComponent = { row => {
+                                // console.dir(row)
+                                return (
+                                    <div>
+                                    {/* {row.original.id} */}
+                                        {employeeTable(row.original.assigned)}
+                                    </div>
+                                )
+                            }}
+                            />
+                <button className="newItem">++<i className="fas fa-file-alt"></i></button>
+                <AddEmployee isOpen={this.state.isOpen} 
+                    handleClose={this.handleClose} 
+                    projectDetails={this.state.projectList[this.state.currentProjectID-1]}
+                    assignedEmployees={this.state.assignedEmployees[this.state.currentProjectID]}
+                    fetchProjects={this.fetchProjects}
+                    projectID={this.state.currentProjectID}/>
+                <Link to="/schedule"><span>Calendar View</span></Link>
             </div>
         )
     }

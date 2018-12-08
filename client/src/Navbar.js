@@ -16,9 +16,9 @@ export default class Navbar extends Component {
             {/* <NavLink activeStyle={style} to="/clients">Clients</NavLink>
             <NavLink activeStyle={style} to="/projects">Projects</NavLink>
             <NavLink activeStyle={style} to="/employees">Employees</NavLink> */}
-            {/* <NavLink to="/"><i className="fas fa-user-circle"></i> Profile</NavLink>
+            <NavLink to="/"><i className="fas fa-user-circle"></i> Profile</NavLink>
             <NavLink to="/"><i className="fas fa-bars"></i> Options</NavLink>
-            <NavLink to="/"><i className="fas fa-power-off"></i> Log Out</NavLink> */}
+            <NavLink to="/"><i className="fas fa-power-off"></i> Log Out</NavLink>
         </div>
       </nav>
     )

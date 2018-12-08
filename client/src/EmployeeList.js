@@ -38,6 +38,24 @@ export default class EmployeeList extends Component {
         })
     }
 
+    deleteEmployees = (e) => {
+        let id = e.target.name
+   
+        let url = `http://localhost:8080/employees/${id}`;
+        let init = {
+            method: "DELETE",
+            headers: {
+                'content-type': 'application/json'
+            }
+        };
+
+        fetch(url, init)
+            .then( res => {
+                res.json();
+                this.fetchEmployees();
+            })
+    }
+
     render() {
         const data = this.state.employeeList.map((employee)=>{
             return (
@@ -68,8 +86,8 @@ export default class EmployeeList extends Component {
                 Cell: row => {
                     return (
                         <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
-                            <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
-                            <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
+                            <MenuItem><i className="fas fa-pencil-alt"></i>  Edit</MenuItem>
+                            <MenuItem onClick={this.deleteEmployees} name={row.value.id} ><i className="fas fa-trash-alt"></i>  Delete</MenuItem>
                         </DropdownButton>
                     )
                 }

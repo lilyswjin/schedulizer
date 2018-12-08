@@ -46,6 +46,24 @@ export default class ClientList extends Component {
         })
     }
 
+    deleteClients = (e) => {
+        let id = e.target.name
+   
+        let url = `http://localhost:8080/clients/${id}`;
+        let init = {
+            method: "DELETE",
+            headers: {
+                'content-type': 'application/json'
+            }
+        };
+
+        fetch(url, init)
+            .then( res => {
+                res.json();
+                this.fetchClients();
+            })
+    }
+
     render() {
 
         // set up data structure for react table
@@ -74,8 +92,9 @@ export default class ClientList extends Component {
                 Cell: row => {
                     return (
                         <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
+                            <MenuItem><i className="fas fa-file-alt"></i>   Add Project</MenuItem>
                             <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
-                            <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
+                            <MenuItem onClick={this.deleteClients} name={row.value.id}><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
                         </DropdownButton>
                     )
                 }

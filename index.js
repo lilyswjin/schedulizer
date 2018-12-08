@@ -368,10 +368,62 @@ app.post('/project/:projectID', (req, res) => {
 // --- DELETE METHODS --- 
 
 // Set up a DELETE route at /clients that lets you delete a client from the database
+app.delete('/clients/:id', (req, res) => {
+    let clientID = parseInt(req.params.id)
+
+    db.Client.find({
+        where: {
+            id: clientID
+        }
+    })
+    .then( client => {
+        client.destroy()
+        return res.status(200).json(client)
+    })
+    .catch(err => {
+        return res.status(500).json(err);
+    })
+   
+})
+
 
 // Set up a DELETE route at /employees that lets you delete an employee from the database
 
+app.delete('/employees/:id', (req, res) => {
+    let employeeID = parseInt(req.params.id)
+
+    db.Employee.find({
+        where: {
+            id: employeeID
+        }
+    })
+    .then( employee => {
+        employee.destroy()
+        return res.status(200).json(employee)
+    })
+    .catch(err => {
+        return res.status(500).json(err);
+    })
+})
+
 // Set up a DELETE route at /projects that lets you delete a project from the database
+app.delete('/projects/:id', (req, res) => {
+    let projectID = parseInt(req.params.id)
+
+    db.Project.find({
+        where: {
+            id: projectID
+        }
+    })
+    .then( project => {
+        project.destroy()
+        return res.status(200).json(project)
+    })
+    .catch(err => {
+        return res.status(500).json(err);
+    })
+})
+
 
 // Set up a DELETE route at /schedule that lets you remove an employee from a project
 

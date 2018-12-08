@@ -1,34 +1,9 @@
 import React, { Component } from 'react'
-
+import {Link} from 'react-router-dom'
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
 
-const groups = [{ id: 1, title: 'group 1' }, { id: 2, title: 'group 2' }]
-
-const items = [
-  {
-    id: 1,
-    group: 1,
-    title: 'item 1',
-    start_time: moment(),
-    end_time: moment().add(1, 'hour')
-  },
-  {
-    id: 2,
-    group: 2,
-    title: 'item 2',
-    start_time: moment().add(-0.5, 'hour'),
-    end_time: moment().add(0.5, 'hour')
-  },
-  {
-    id: 3,
-    group: 1,
-    title: 'item 3',
-    start_time: moment().add(2, 'hour'),
-    end_time: moment().add(3, 'hour')
-  }
-]
 
 
 export default class Schedule extends Component {
@@ -69,17 +44,58 @@ export default class Schedule extends Component {
     })  
   }
 
-
   render() {
+
+    // const groups = [{ id: 1, title: 'group 1' }, { id: 2, title: 'group 2' }]
+
+    const groups = this.state.projectList ? this.state.projectList.map( project => {
+      return (
+        {
+          id: project.id,
+          title: project.name,
+          
+        }
+      )
+    }) : [{}];
+
+    let items = [];
+    let employees = this.state.assignedEmployees
+
+   
+    for (let key in employees) {
+      if (employees.hasOwnProperty(key)) {
+        if (employees[key].length > 0) {
+          employees[key].forEach((employee) => {
+            items.push({
+              id: employee.id,
+              group: key,
+              title: employee.last_name + ", " + employee.first_name,
+              start_time: moment(employee.start_date).startOf("day"),
+              end_time: moment(employee.end_date).endOf("day"),
+              canResize: true,
+              canChangeGroup: true,
+              className: "employee-time"
+            })
+          })
+        }
+      }
+    }
 
     return (
       <div>
         <Timeline
             groups={groups}
             items={items}
-            defaultTimeStart={moment().add(-12, 'hour')}
-            defaultTimeEnd={moment().add(12, 'hour')}
+            defaultTimeStart={moment().startOf("day").add(-3, 'day')}
+            defaultTimeEnd={moment().endOf("day").add(3, 'day')}
+            stackItems={true}
+            timeSteps={{day:1}}
+            sidebarContent={<div>Projects</div>}
+            sidebarWidth={100}
+            itemsSorted
+            showCursorLine
         />
+        <Link to="/projects"><span>Table View</span></Link>
       </div>
     )
   }

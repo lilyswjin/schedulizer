@@ -40,9 +40,10 @@ export default class NewEmployee extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.validateForm();
-
+    
         if (this.state.isValid) {
             this.newEmployee();
+            this.clearForm();
         }
     }
 
@@ -140,7 +141,6 @@ export default class NewEmployee extends Component {
                 errMsg.lastName = "Invalid characters in name"
             }
 
-
             // check for valid alpha characters in city
             if (validator.isAlpha(data.city) ) {
                 isValid.city = true;
@@ -153,6 +153,13 @@ export default class NewEmployee extends Component {
                 isValid.province = true;
             } else {
                 errMsg.province = "Invalid characters in province"
+            }
+
+             // check for valid alpha characters in country
+             if (validator.isAlpha(data.country) ) {
+                isValid.country = true;
+            } else {
+                errMsg.country = "Invalid selection!"
             }
         }
 
@@ -177,6 +184,31 @@ export default class NewEmployee extends Component {
 
     }
 
+    clearForm = (e) => {
+        this.setState({
+            formData: {
+                firstName: "",
+                lastName: "",
+                street: "",
+                city: "",
+                province: "",
+                country: "",
+                postCode: "",
+            },
+            formErrors: {
+                firstName: "",
+                lastName: "",
+                street: "",
+                city: "",
+                province: "",
+                country: "",
+                postCode: "",
+            },
+            isValid: false,
+            errorMsg: ""
+        })
+    }
+
     render() {
 
         return (
@@ -189,7 +221,7 @@ export default class NewEmployee extends Component {
                             <div>Name</div>
                             <input name="firstName" placeholder="First Name" type="text" value={this.state.formData.firstName} onChange={this.handleInputChange}></input>
                             <div className="errorMsg">{this.state.formErrors.firstName}</div>
-                            <input name="lastName" placeholder="Last Name" type="text" value={this.state.formData.name} onChange={this.handleInputChange}></input>
+                            <input name="lastName" placeholder="Last Name" type="text" value={this.state.formData.lastName} onChange={this.handleInputChange}></input>
                             <div className="errorMsg">{this.state.formErrors.lastName}</div>
                         </label>
                         <label className="address">

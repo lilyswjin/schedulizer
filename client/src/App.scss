@@ -374,6 +374,43 @@ $white: white;
   }
 }
 
+// ---styling for react-calendar--
+// sidebar text color
+.main {
+  color: black;
+  font-size: 1.1rem;
+  font-weight: bold;
+  
+}
+
+.react-calendar-timeline {
+  border: 2px solid $lightgrey;
+  border-top-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  background-color: $lightblue;
+  padding: 1rem;
+  div.rct-sidebar-header {
+    background-color: $lightgrey;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+  }
+  .rct-header {
+    div.rct-label-group {
+      background-color: $lightgrey;
+      font-weight: bold;
+    }
+    div.rct-label {
+      background-color: $lightgrey;
+      color: white;
+      border-color: transparent;
+    }
+  }
+} 
+  
 
 @media only screen and (max-width: 950px) {
 
