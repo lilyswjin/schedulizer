@@ -4,7 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     lat: DataTypes.DECIMAL,
-    long: DataTypes.DECIMAL
+    long: DataTypes.DECIMAL,
+    street: DataTypes.STRING,
+    post_code: DataTypes.STRING,
+    city: DataTypes.STRING,
+    province: DataTypes.STRING,
+    country: DataTypes.STRING
   }, {
     underscored: true,
   });

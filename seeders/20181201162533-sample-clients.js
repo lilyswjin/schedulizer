@@ -15,13 +15,33 @@ module.exports = {
     return queryInterface.bulkInsert('Clients', [
       {
         name: 'BrainStation',
-        lat: 43.645630,
-        long: -79.395450
+        lat: 43.645543,
+        long: -79.395385,
+        street: "460 King St W",
+        post_code: "M5V 1L7",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
-        name: 'DigiArt',
-        lat: 41.669020,
-        long: -78.337310
+        name: 'Eaton Center',
+        lat: 43.654919,
+        long: -79.379288,
+        street: "220 Yonge St",
+        post_code: "M5B 2H1",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
+      },
+      {
+        name: 'McDonalds',
+        lat: 43.727832,
+        long: -79.344634,
+        street: "1 McDonalds Pl",
+        post_code: "M3C 3L4",
+        city: "North York",
+        province: "Ontario",
+        country: "Canada"
       }
     ], {});
   },

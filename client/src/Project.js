@@ -171,6 +171,7 @@ export default class Project extends Component {
                 handleClose={this.handleClose} 
                 projectDetails={this.state.projectList[this.state.currentProjectID-1]}
                 assignedEmployees={this.state.assignedEmployees[this.state.currentProjectID]}
+                fetchProjects={this.fetchProjects}
                 projectID={this.state.currentProjectID}/>
             </div>
         )

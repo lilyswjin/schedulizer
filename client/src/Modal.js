@@ -8,6 +8,7 @@ class Modal extends Component {
                 <div className='modal-layer' onClick={this.props.handleClose} style={modalLayer}></div>
                 <div className="form-container" style={formModal}>
                     <h1>Test Modal</h1>
+                    {/* Insert Component here */}
                     <form>
                     </form>
                 </div>
@@ -28,17 +29,19 @@ const flex = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
     zIndex: 1,
     overflow: 'hidden',
     backgroundColor: 'rgba(57,57,57,0.6)',
+    top: 0,
+    left: 0
 };
 
 const modalLayer = {
     position: 'fixed',
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
     zIndex: 1,
     backgroundColor: 'transparent'
   };
@@ -47,9 +50,9 @@ const modalLayer = {
     position: 'absolute',
     color: 'rgb(57,57,57)',
     backgroundColor: '#FFFFFF',
-    width: '600px',
+    width: '85vh',
     maxWidth: '100%',
-    height: '600px',
+    height: '85vh',
     maxHeight: '100%',
     zIndex: 2,
     borderRadius: '3px',

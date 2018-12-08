@@ -1,0 +1,223 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import validator from 'validator';
+
+export default class NewEmployee extends Component {
+    state = {
+        formData: {
+            firstName: "",
+            lastName: "",
+            street: "",
+            city: "",
+            province: "",
+            country: "",
+            postCode: "",
+        },
+        formErrors: {
+            firstName: "",
+            lastName: "",
+            street: "",
+            city: "",
+            province: "",
+            country: "",
+            postCode: "",
+        },
+        isValid: false,
+        errorMsg: ""
+    }
+
+    handleInputChange = (e) => {
+        let formData = {...this.state.formData}
+        if (e.target.name !== undefined && e.target.value !== undefined) {
+          formData[e.target.name] = e.target.value
+          
+            this.setState({
+                formData: formData
+            })
+        } 
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.newEmployee();
+    }
+
+    newEmployee = () => {
+        let addressString = (Object.values(this.state.formData).splice(2,5)).join(", ");
+        console.log(addressString)
+
+        let url = `http://localhost:8080/employees/`;
+        let body = {
+            address: addressString,
+            firstName: this.state.formData.firstName,
+            lastName: this.state.formData.lastName
+        }
+
+        let init = {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        fetch(url, init)
+            .then(res => {
+                console.log(res)
+                return res.json();
+            })
+            .then( data => { 
+            console.log(data)
+            })
+            .catch(err => console.log(err))
+    }
+
+
+
+    validateForm = (e) => {
+        // declare RegEx conditions
+        let streetAddress = new RegExp(/^\s*\S+(?:\s+\S+){2}/);
+        let data = this.state.formData;
+        let isValid = {
+            firstName: false,
+            lastName: false,
+            street: false,
+            city: false,
+            province: false,
+            country: false,
+            postCode: false,
+        }
+        let errMsg = {
+            firstName: "",
+            lastName: "",
+            street: "",
+            city: "",
+            province: "",
+            country: "",
+            postCode: ""
+        }
+
+        let isBlank = true;
+
+        // check for blanks
+        for (let key in data) {
+            if (data[key] !== null && data[key] !== "") {
+                isBlank = false;
+            } else {
+                errMsg[key] = "Field cannot be blank!"
+            }
+        }
+
+        // if fields arent blank, validate content
+        if (!isBlank) {
+            // check for valid postal code
+            if (validator.isPostalCode(data.postCode) ) {
+                isValid.postCode = true;
+            } else {
+                errMsg.postCode = "Invalid postal/zip code"
+            }
+    
+            // check for valid street address
+
+    
+            // check for valid alpha characters in name, city and province
+            if (validator.isAlpha(data.firstName) ) {
+                isValid.firstName = true;
+            }   
+
+            if (validator.isAlpha(data.lastName) ) {
+                isValid.lastName = true;
+            } 
+
+            if (validator.isAlpha(data.city) ) {
+                isValid.city = true;
+            } 
+
+            if (validator.isAlpha(data.province) ) {
+                isValid.province = true;
+            } 
+        }
+
+
+    }
+
+    render() {
+
+        return (
+            <div style={{...flex, display: this.props.isOpen ? 'flex' : 'none'}}>
+                <div className='modal-layer' onClick={this.props.handleClose} style={modalLayer}></div>
+                <div className="form-container" style={formModal}>
+                    <h1><i className="fas fa-male"></i> New Employee +</h1>
+                    <form className="new__form">
+                        <label className="new__name">
+                            <div>Name</div>
+                            <input name="firstName" placeholder="First Name" type="text" value={this.state.formData.firstName} onChange={this.handleInputChange}></input>
+                            <input name="lastName" placeholder="Last Name" type="text" value={this.state.formData.name} onChange={this.handleInputChange}></input>
+                        </label>
+                        <label className="address">
+                            <div>Address</div>
+                            <input name="street" type="text" placeholder="Street Number & Name" value={this.state.formData.street} onChange={this.handleInputChange} ></input>
+                            <input name="city" placeholder="City" type="text" value={this.state.formData.city} onChange={this.handleInputChange} ></input>
+                            <input name="province" placeholder="Province" type="text" value={this.state.formData.province} onChange={this.handleInputChange} ></input>
+                            <select name="country" value={this.state.formData.country} onChange={this.handleInputChange}>
+                                <option disabled hidden style={{display: "none"}} >Select Country</option>
+                                <option className="country" value="" disabled >Select Country</option>
+                                <option value="CAN">Canada</option>
+                                <option value="USA">United States</option>
+                            </select>
+                            <input name="postCode" placeholder="Postal Code" type="text" value={this.state.formData.postCode} onChange={this.handleInputChange} ></input>
+                        </label>
+                        <input onClick={this.handleSubmit} type="submit"></input>
+                    </form>
+                </div>
+            </div>
+      
+        )
+    }
+}
+
+NewEmployee.propTypes = {
+    handleClose: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+};
+
+const flex = {
+    position: 'fixed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    zIndex: 1,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(57,57,57,0.6)',
+    top: 0,
+    left: 0
+};
+
+const modalLayer = {
+    position: 'fixed',
+    width: '100%',
+    height: '100%',
+    zIndex: 1,
+    backgroundColor: 'transparent'
+  };
+  
+const formModal = {
+    position: 'absolute',
+    color: 'rgb(57,57,57)',
+    backgroundColor: '#FFFFFF',
+    minWidth: '50vh',
+    maxWidth: '100%',
+    minHeight: '50vh',
+    maxHeight: '100%',
+    zIndex: 2,
+    borderRadius: '3px',
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column'
+};
+
+
+
+

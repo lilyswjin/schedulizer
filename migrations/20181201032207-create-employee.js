@@ -24,14 +24,26 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DECIMAL(12,9)
       },
-      // project_id: {
-      //   type: Sequelize.INTEGER,
-      //   onDelete: 'CASCADE',
-      //   references: {
-      //     model: 'Projects',
-      //     key: 'id'
-      //   }
-      // },
+      street: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      post_code: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      city: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      province: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      country: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

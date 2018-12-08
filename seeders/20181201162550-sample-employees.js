@@ -18,91 +18,88 @@ module.exports = {
         last_name: 'Stark',
         lat: 43.642567,
         long: -79.387054,
-        // project_id: null
+        street: "301 Front St W",
+        post_code: "M5V 2T6",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'Thor',
         last_name: 'Odinson',
         lat: 43.750198,
         long: -79.267273,
-        // project_id: null
+        street: "301 Prudential Dr",
+        post_code: "M1P 4V3",
+        city: "Scarborough",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'Stephen',
         last_name: 'Strange',
         lat: 43.642567,
         long: -79.387054,
-        // project_id: null
+        street: "301 Front St W",
+        post_code: "M5V 2T6",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'Bruce',
         last_name: 'Banner',
         lat: 43.654919,
         long: -79.379288,
-        // project_id: null
+        street: "4220 Victoria St",
+        post_code: "M5B 2R6",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'Peter',
         last_name: 'Parker',
         lat: 43.593079,
         long: -79.642494,
-        // project_id: null
+        street: "460 King St W",
+        post_code: "M5V 1L7",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'Natasha',
         last_name: 'Romanoff',
         lat: 43.766304,
         long: -79.412449,
-        // project_id: null
+        street: "100 City Centre Dr",
+        post_code: "L5B 2C9",
+        city: "Toronto",
+        province: "Ontario",
+        country: "Canada"
       },
       {
         first_name: 'I am',
         last_name: 'Groot',
         lat: 40.712776,
         long: -74.005974,
-        // project_id: null
-      },
-      {
-        first_name: 'Loki',
-        last_name: 'Odinson',
-        lat: 43.593079,
-        long: -79.642494,
-        // project_id: null
-      },
-      {
-        first_name: 'Steve',
-        last_name: 'Rogers',
-        lat: 43.751062,
-        long: -79.459514,
-        // project_id: null
-      },
-      {
-        first_name: 'Melinda',
-        last_name: 'May',
-        lat: 43.695451,
-        long: -79.809575,
-        // project_id: null
-      },
-      {
-        first_name: 'Daisy',
-        last_name: 'Johnson',
-        lat: 43.567227,
-        long: -79.642494,
-        // project_id: null
-      },
-      {
-        first_name: 'Philip',
-        last_name: 'Coulson',
-        lat: 43.593079,
-        long: -79.679104,
-        // project_id: null
+        street: "230 Broadway",
+        post_code: "10007",
+        city: "New York",
+        province: "New York",
+        country: "USA"
       },
       {
         first_name: 'Dead',
         last_name: 'Pool',
         lat: 44.391798,
         long: -79.712104,
-        // project_id: null
+        street: "81 Letitia St",
+        post_code: "L4N 2B2",
+        city: "Barrie",
+        province: "Ontario",
+        country: "Canada"
       }
     ], {});
   },

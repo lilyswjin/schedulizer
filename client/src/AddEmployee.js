@@ -37,6 +37,7 @@ export default class AddEmployee extends Component {
         this.setState({
             employees: data
         })
+        
     })  
   }
 
@@ -64,6 +65,7 @@ export default class AddEmployee extends Component {
       fetch(url, init)
           .then(res => {
             res.json();
+            this.props.fetchProjects()
           })
           .then( data => { 
             console.log(this.data)

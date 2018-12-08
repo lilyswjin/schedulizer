@@ -3,10 +3,13 @@ import ReactTable from 'react-table';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
+import NewEmployee from './NewEmployee';
+
 export default class EmployeeList extends Component {
 
     state = {
-        employeeList: []
+        employeeList: [],
+        isOpen: false
     }
 
     componentDidMount() {
@@ -19,6 +22,20 @@ export default class EmployeeList extends Component {
         .then(data => {
             this.setState({employeeList: data})
         })  
+    }
+
+    handleClose = (e) => {
+        e.preventDefault()
+        this.setState({
+            isOpen: false
+        })
+    }
+
+    handleOpen = (e) => {
+        e.preventDefault()
+        this.setState({
+            isOpen: true,
+        })
     }
 
     render() {
@@ -50,7 +67,7 @@ export default class EmployeeList extends Component {
                 accessor: "",
                 Cell: row => {
                     return (
-                        <DropdownButton noCaret>
+                        <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
                             <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
                             <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
                         </DropdownButton>
@@ -62,7 +79,8 @@ export default class EmployeeList extends Component {
         return (
             <div className="employee">
               <ReactTable data={data} columns={columns} minRows={1} defaultPageSize={8} className="-striped -highlight" />
-              <button className="newItem">++<i className="fas fa-male"></i></button>
+              <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-male"></i></button>
+              <NewEmployee isOpen={this.state.isOpen} handleClose={this.handleClose} />
             </div>
         )
     }

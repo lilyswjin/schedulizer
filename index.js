@@ -3,16 +3,19 @@
 const dotenv = require('dotenv');
 dotenv.config(); // this line reads all key-value pairs from .env into process.env
 
+
 const express = require('express'),
-    PORT = process.env.PORT || 8080
+    PORT = process.env.PORT || 8181
+    KEY = process.env.API_KEY
     bodyParser = require('body-parser'),
     app = express(),
     Sequelize = require('sequelize'),
     cors = require('cors'),
     db = require('./models'),
-    Op = Sequelize.Op
+    Op = Sequelize.Op,
+    fetch = require('node-fetch');
 
-    app.use(cors());
+app.use(cors());
 
 
 // Set up connection to the db (db name, user name, pw)
@@ -26,6 +29,16 @@ const sequelize = new Sequelize('shoppr', 'root', 'root', {
 // set body parser for urlencoded and json
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+// app.use(cors);
+
+
+// set cors to all 
+// app.all('/*', function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+//     res.header("Access-Control-Allow-Headers", "Content-Type");
+//     next();
+// });
 
 
 // --- GET METHODS --- 
@@ -187,9 +200,117 @@ app.get('/schedule/:projectID', (req, res) => {
 
 // Set up a POST route at /clients that lets you add a new client to the database 
 
+app.post('/clients', (req, res) => {
+    let { clientName, address } = req.params.body;
+    let lat, long = 0;
+
+    // let address = "460 King Street West";
+    // let clientName = "New Client"
+
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`;
+    
+    // validation layer
+
+    if (typeof address === "string" && typeof clientName === "string" ) {
+
+        // send get request to API 
+        fetch(url)
+            .then(resp => {
+                return resp.json()
+                // console.log(resp)
+            })
+            .then(json => {
+                lat = json.results[0].geometry.location.lat
+                long = json.results[0].geometry.location.lng
+    
+                let address = json.results[0].address_components;
+                let street = address[0].long_name + " " + address[1].long_name;
+                let postCode = address[7].long_name;
+                let city = address[3].long_name;
+                let province = address[5].long_name;
+                let country = address[6].long_name;
+    
+                db.Client.create({
+                    name: clientName,
+                    lat: lat,
+                    long: long,
+                    street: street,
+                    post_code: postCode,
+                    city: city,
+                    province: province,
+                    country: country
+                })
+                .then( entry => {
+                    return res.status(200).json(entry)
+                })
+                .catch(err => {
+                    return res.status(500).json(err);
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                return res.status(500).json(err);
+            })
+    }
+})
+
 
 // Set up a POST route at /employees that lets you add a new employee to the database
 
+
+app.post('/employees', (req, res) => {
+    let { firstName, lastName, address } = req.params.body;
+    console.log(req.params.body)
+    
+    let lat, long = 0;
+
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`;
+    
+    // validation layer
+
+    if (typeof address === "string" && typeof firstName === "string" && typeof lastName === "string") {
+
+        // send get request to API 
+        fetch(url)
+            .then(resp => {
+                return resp.json()
+                // console.log(resp)
+            })
+            .then(json => {
+                lat = json.results[0].geometry.location.lat
+                long = json.results[0].geometry.location.lng
+    
+                let address = json.results[0].address_components;
+                let street = address[0].long_name + " " + address[1].long_name;
+                let postCode = address[7].long_name;
+                let city = address[3].long_name;
+                let province = address[5].long_name;
+                let country = address[6].long_name;
+    
+                db.Employee.create({
+                    first_name: firstName,
+                    last_name: lastName,
+                    lat: lat,
+                    long: long,
+                    street: street,
+                    post_code: postCode,
+                    city: city,
+                    province: province,
+                    country: country
+                })
+                .then( entry => {
+                    return res.status(200).json(entry)
+                })
+                .catch(err => {
+                    return res.status(500).json(err);
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                return res.status(500).json(err);
+            })
+    }
+})
 
 // Set up a POST route at /projects that lets you add a new project to the database
 

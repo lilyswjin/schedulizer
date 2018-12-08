@@ -3,11 +3,15 @@ import ReactTable from 'react-table'
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
+// import Modal from './Modal';
+import NewClient from './NewClient';
+
 export default class ClientList extends Component {
 
     state = {
         clientList: [],
-        dropdownOpen: false
+        // dropdownOpen: false,
+        isOpen: false
     }
 
     componentDidMount() {
@@ -26,6 +30,20 @@ export default class ClientList extends Component {
         this.setState( prevState => ({
             dropdownOpen: !prevState.dropdownOpen
         }))
+    }
+
+    handleClose = (e) => {
+        e.preventDefault()
+        this.setState({
+            isOpen: false
+        })
+    }
+
+    handleOpen = (e) => {
+        e.preventDefault()
+        this.setState({
+            isOpen: true,
+        })
     }
 
     render() {
@@ -55,7 +73,7 @@ export default class ClientList extends Component {
                 accessor: "",
                 Cell: row => {
                     return (
-                        <DropdownButton noCaret>
+                        <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
                             <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
                             <MenuItem><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
                         </DropdownButton>
@@ -67,7 +85,9 @@ export default class ClientList extends Component {
         return (
             <div className="client">
                 <ReactTable data={data} columns={columns} defaultPageSize={8}  className="-striped -highlight" minRows={1}/>
-                <button className="newItem">++<i className="fas fa-building"></i></button>
+                <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-building"></i></button>
+                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose}/> 
+              
             </div>
         )
     }

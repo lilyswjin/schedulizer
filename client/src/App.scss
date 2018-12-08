@@ -75,11 +75,12 @@ $white: white;
 .sidebar {
   display: flex;
   justify-content: space-evenly;
+  padding-top: 7.5%;
   &__links {
     width: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
     padding-right: 5%;
     vertical-align: center;
     text-align: center;
@@ -94,6 +95,7 @@ $white: white;
       color: $gold;
       background-color: $lightgrey;
     }
+    margin-top: 2rem;
     padding: .5rem 5% .5rem 5%;
   }
 
@@ -197,6 +199,56 @@ $white: white;
 }
 
 
+// New item modals
+
+.new__form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  input {
+    width: 100%;
+  }
+  .address {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .address, .new__name {
+    div {
+      font-size: 1.5rem;
+    }
+  }
+
+  select {
+    width: 100%;
+    color: black;
+    padding: 0 0 0 1px;
+    margin: 0;
+    -webkit-appearance: none;
+    -moz-appearance : none;
+    
+  }
+ 
+  input, select {
+    border-radius: 0;
+    background-color: white;
+    border: 1px lightgray solid;
+    font-size: 1.25rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding: 3px;
+  }
+  input[type="submit"] {
+    font-weight: bold;
+    color: white;
+    background-color: $blue;
+  }
+}
+
 
 // Add employee module
 
@@ -218,8 +270,17 @@ $white: white;
 
 .form-container {
   display: flex;
-  padding: 2rem;
-
+  h1 {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    background-color: $lightgrey;
+    color: white;
+    padding: 1rem;
+  }
+  form {
+    padding: 2rem;
+  }
 }
 
 .addEmployee {
