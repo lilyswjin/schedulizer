@@ -105,6 +105,9 @@ $white: white;
   color: $palegrey;
   height: 100%;
   display: flex;
+  text-overflow: initial;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .section {

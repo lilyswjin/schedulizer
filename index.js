@@ -434,6 +434,25 @@ app.delete('/projects/:id', (req, res) => {
 
 // Set up a DELETE route at /schedule that lets you remove an employee from a project
 
+app.delete('/schedule/:projectID/:employeeID', (req, res) => {
+    let projectID = parseInt(req.params.projectID)
+    let employeeID = parseInt(req.params.employeeID)
+
+    db.Schedule.find({
+        where: {
+            project_id: projectID,
+            employee_id: employeeID
+        }
+    })
+    .then( schedule => {
+        schedule.destroy()
+        return res.status(200).json(schedule)
+    })
+    .catch(err => {
+        return res.status(500).json(err);
+    })
+
+})
 
 
 // --- PUT METHODS --- 

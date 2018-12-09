@@ -49,7 +49,6 @@ export default class NewEmployee extends Component {
 
     newEmployee = () => {
         let addressString = (Object.values(this.state.formData).splice(2,5)).join(", ");
-        console.log(addressString)
 
         let url = `http://localhost:8080/employees`;
         let body = {
@@ -57,7 +56,6 @@ export default class NewEmployee extends Component {
             firstName: this.state.formData.firstName,
             lastName: this.state.formData.lastName
         }
-        console.log(body)
 
         let init = {
             method: "POST",
@@ -70,6 +68,7 @@ export default class NewEmployee extends Component {
         fetch(url, init)
             .then(res => {
                 console.log(res)
+                this.props.fetchEmployees();
             })
             .catch(err => console.log(err))
     }

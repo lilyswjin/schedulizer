@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+// import validator from 'validator';
 
 export default class NewProject extends Component {
 
@@ -26,7 +27,6 @@ export default class NewProject extends Component {
         })
     }
 
-
     componentDidMount() {
         this.fetchClients();
     }
@@ -48,16 +48,20 @@ export default class NewProject extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
+        this.validateForm()
+
         if (this.state.isValid) {
             this.newProject();
+            this.props.fetchProjects();
+            this.clearForm();
         }
     }
 
     newProject = () => {
         let url = `http://localhost:8080/projects`;
         let body = {
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
+            startDate: moment(this.state.startDate).startOf("day").valueOf(),
+            endDate: moment(this.state.endDate).endOf("day").valueOf(),
             clientID: this.props.clientID,
             name: this.state.name
         }
@@ -73,8 +77,30 @@ export default class NewProject extends Component {
         fetch(url, init)
             .then(res => {
                 console.log(res)
+               
             })
             .catch(err => console.log(err))
+    }
+
+    validateForm = () => {
+        if (this.state.name !== "") {
+            this.setState({
+                isValid: true,
+                errorMsg: ""
+            })
+        } else {
+            this.setState({
+                errorMsg: "Please enter in a project name."
+            })
+        }
+    }
+
+    clearForm = () => {
+        this.setState({
+            isValid: false,
+            errorMsg: "",
+            name: ""
+        })
     }
 
     render() {
@@ -139,14 +165,12 @@ export default class NewProject extends Component {
     }
 }
 
-
-
 NewProject.propTypes = {
     handleClose: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
   };
   
-  const flex = {
+const flex = {
     position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
@@ -158,18 +182,18 @@ NewProject.propTypes = {
     backgroundColor: 'rgba(57,57,57,0.6)',
     top: 0,
     left: 0
-  };
+};
   
-  const modalLayer = {
+const modalLayer = {
     position: 'fixed',
     width: '100%',
     height: '100%',
     zIndex: 1,
     backgroundColor: 'transparent',
-  };
+};
     
   
-  const formModal = {
+const formModal = {
     position: 'absolute',
     color: 'rgb(57,57,57)',
     backgroundColor: '#FFFFFF',
@@ -182,7 +206,7 @@ NewProject.propTypes = {
     overflow: 'auto',
     display: 'flex',
     flexDirection: 'column'
-  };
+};
   
   
   

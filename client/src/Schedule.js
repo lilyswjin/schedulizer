@@ -43,6 +43,15 @@ export default class Schedule extends Component {
     })  
   }
 
+  groupRenderer = ({ group }) => {
+    return (
+      <div className="custom-group" key={group.id}>
+        <span className="title">{group.title}</span>
+        <p className="tip">{group.tip}</p>
+      </div>
+    )
+  }
+
   render() {
 
     // const groups = [{ id: 1, title: 'group 1' }, { id: 2, title: 'group 2' }]
@@ -52,10 +61,12 @@ export default class Schedule extends Component {
         {
           id: project.id,
           title: project.name,
+          tip: project.name
           
         }
       )
     }) : [{}];
+
 
     let items = [];
     let employees = this.state.assignedEmployees

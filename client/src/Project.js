@@ -5,6 +5,7 @@ import moment from 'moment';
 import ReactTable from 'react-table';
 import AddEmployee from './AddEmployee';
 import NewProject from './NewProject';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 export default class Project extends Component {
     state = {
@@ -83,6 +84,48 @@ export default class Project extends Component {
         })  
     }
 
+    deleteProject = (e) => {
+        let id = e.target.name
+        let url = `http://localhost:8080/projects/${id}`;
+        let init = {
+            method: "DELETE",
+            headers: {
+                'content-type': 'application/json'
+            }
+        };
+
+        fetch(url, init)
+            .then( res => {
+                res.json();
+                this.fetchProjects();
+            })
+    }
+
+    removeEmployee = (e) => {
+        let idStr = (e.target.name)
+
+        if (idStr) {
+            let arr = idStr.split(',')
+            let projectID = Number(arr[0]);
+            let employeeID = Number(arr[1]);
+
+            let url = `http://localhost:8080/schedule/${projectID}/${employeeID}`;
+            let init = {
+                method: "DELETE",
+                headers: {
+                    'content-type': 'application/json'
+                }
+            };
+    
+            fetch(url, init)
+                .then( res => {
+                    console.dir(res)
+                    this.fetchProjects();
+                })
+        }
+    }
+
+
     render() {
 
         const data = this.state.projectList.map((project)=>{
@@ -98,7 +141,9 @@ export default class Project extends Component {
                             first_name: employee.first_name,
                             last_name: employee.last_name,
                             start_date: moment(employee.start_date).format("MM/DD/YYYY"),
-                            end_date: moment(employee.end_date).format("MM/DD/YYYY")
+                            end_date: moment(employee.end_date).format("MM/DD/YYYY"),
+                            project_id: project.id
+
                         }
                     }) : null
                 }
@@ -126,7 +171,12 @@ export default class Project extends Component {
                 Header: "",
                 accessor: "",
                 Cell: row => (
-                    <span title={row.original.id} onClick={this.handleOpen}>+ <i title={row.original.id} className="fas fa-male"></i> <i  title={row.original.id} className="fas fa-male"></i> <i  title={row.original.id} className="fas fa-male"></i></span>
+                    // <span title={row.original.id} onClick={this.handleOpen}>+ <i title={row.original.id} className="fas fa-male"></i> <i  title={row.original.id} className="fas fa-male"></i> <i  title={row.original.id} className="fas fa-male"></i></span>
+                    <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
+                        <MenuItem onClick={this.handleOpen} name={row.value.id} title={row.original.id} ><i className="fas fa-male" ></i> <i className="fas fa-male" ></i>  Add Employee</MenuItem>
+                        <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
+                        <MenuItem onClick={this.deleteProject} name={row.value.id}><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
+                    </DropdownButton>
                 )
             }
         ];
@@ -153,6 +203,15 @@ export default class Project extends Component {
                 {
                     Header: "End Date",
                     accessor: 'end_date'
+                },
+                {
+                    Header: "",
+                    accessor: "",
+                    Cell: row => (
+                        <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
+                            <MenuItem onClick={this.removeEmployee} name={`${row.value.project_id},${row.value.id}`} ><i className="fas fa-trash-alt"></i>Remove</MenuItem>
+                        </DropdownButton>
+                    )
                 }
             ]
 
@@ -175,10 +234,8 @@ export default class Project extends Component {
                             defaultPageSize={8} 
                             className="-striped -highlight"
                             SubComponent = { row => {
-                                // console.dir(row)
                                 return (
                                     <div>
-                                    {/* {row.original.id} */}
                                         {employeeTable(row.original.assigned)}
                                     </div>
                                 )
@@ -193,7 +250,7 @@ export default class Project extends Component {
                     projectID={this.state.currentProjectID}/>
                 
                 <NewProject isOpen={this.state.addProjectIsOpen} 
-
+                    fetchProjects={this.fetchProjects}
                     handleClose={this.handleCloseProj} />
                 <Link to="/schedule"><span>Calendar View</span></Link>
             </div>
