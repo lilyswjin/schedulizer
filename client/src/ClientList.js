@@ -5,13 +5,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // import Modal from './Modal';
 import NewClient from './NewClient';
+import NewProject from './NewProject';
 
 export default class ClientList extends Component {
 
     state = {
         clientList: [],
         // dropdownOpen: false,
-        isOpen: false
+        isOpen: false,
+        addProjectIsOpen: false,
+        activeClientID: null
     }
 
     componentDidMount() {
@@ -43,6 +46,28 @@ export default class ClientList extends Component {
         e.preventDefault()
         this.setState({
             isOpen: true,
+        })
+    }
+
+    handleOpenProj = (e) => {
+        e.preventDefault()
+        let clientID = e.target.name
+        console.log("hit")
+        this.setState({
+            addProjectIsOpen: true
+        })
+        
+        if (clientID !== undefined) {
+            this.setState({
+                activeClientID: clientID
+            })
+        }
+    }
+
+    handleCloseProj = (e) => {
+        e.preventDefault()
+        this.setState({
+            addProjectIsOpen: false
         })
     }
 
@@ -92,7 +117,7 @@ export default class ClientList extends Component {
                 Cell: row => {
                     return (
                         <DropdownButton title={""} id={`dropdown${row.id}`} noCaret>
-                            <MenuItem><i className="fas fa-file-alt"></i>   Add Project</MenuItem>
+                            <MenuItem onClick={this.handleOpenProj} name={row.value.id} ><i className="fas fa-file-alt" ></i>   Add Project</MenuItem>
                             <MenuItem><i className="fas fa-pencil-alt"></i>   Edit</MenuItem>
                             <MenuItem onClick={this.deleteClients} name={row.value.id}><i className="fas fa-trash-alt"></i>   Delete</MenuItem>
                         </DropdownButton>
@@ -105,8 +130,8 @@ export default class ClientList extends Component {
             <div className="client">
                 <ReactTable data={data} columns={columns} defaultPageSize={8}  className="-striped -highlight" minRows={1}/>
                 <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-building"></i></button>
-                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose}/> 
-              
+                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose} /> 
+                <NewProject isOpen={this.state.addProjectIsOpen} handleClose={this.handleCloseProj}  clientID={this.state.activeClientID} />
             </div>
         )
     }

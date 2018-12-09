@@ -461,6 +461,12 @@ $white: white;
       border-color: transparent;
     }
   }
+  div.rct-scroll {
+    display: flex;
+    div.rct-hl-even, div.rct-hl-odd {
+      width: 1000px;
+    }
+  }
 } 
 
 #searchbar {

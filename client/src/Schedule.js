@@ -3,8 +3,7 @@ import {Link} from 'react-router-dom'
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
-
-
+// import componentResizeDetector from 'react-calendar-timeline/lib/resize-detector'
 
 export default class Schedule extends Component {
   state = {
@@ -94,6 +93,7 @@ export default class Schedule extends Component {
             sidebarWidth={100}
             itemsSorted
             showCursorLine
+            // resizeDetector={componentResizeDetector}
         />
         <Link to="/projects"><span>Table View</span></Link>
       </div>

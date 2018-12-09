@@ -601,6 +601,16 @@
   border-color: transparent;
 }
 
+.react-calendar-timeline div.rct-scroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.react-calendar-timeline div.rct-scroll div.rct-hl-even, .react-calendar-timeline div.rct-scroll div.rct-hl-odd {
+  width: 1000px;
+}
+
 #searchbar {
   background-image: url("/assets/icons/Search.svg");
   background-repeat: no-repeat;

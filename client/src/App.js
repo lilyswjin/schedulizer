@@ -13,6 +13,16 @@ import './App.css';
 import Schedule from './Schedule';
 
 class App extends Component {
+
+  state = {
+    company: {
+      name: "BrainStation",
+      lat: 43.645543000,
+      long: -79.395385000,
+    }
+  }
+
+
   render() {
     return (
       <Router>

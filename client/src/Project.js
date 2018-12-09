@@ -4,12 +4,14 @@ import moment from 'moment';
 // import {isEmpty} from './utils';
 import ReactTable from 'react-table';
 import AddEmployee from './AddEmployee';
+import NewProject from './NewProject';
 
 export default class Project extends Component {
     state = {
         projectList: [],
         assignedEmployees: {},
-        isOpen: false,
+        addEmployeeIsOpen: false,
+        addProjectIsOpen: false,
         currentProjectID: null,
         table: true
     }
@@ -33,7 +35,7 @@ export default class Project extends Component {
     handleClose = (e) => {
         e.preventDefault()
         this.setState({
-            isOpen: false
+            addEmployeeIsOpen: false
         })
     }
 
@@ -43,7 +45,7 @@ export default class Project extends Component {
         let projectID = e.target.title;
 
         this.setState({
-            isOpen: true,
+            addEmployeeIsOpen: true,
         })
 
         if (projectID !== undefined){
@@ -51,6 +53,20 @@ export default class Project extends Component {
                 currentProjectID: projectID 
             })
         }
+    }
+
+    handleOpenProj = (e) => {
+        e.preventDefault()
+        this.setState({
+            addProjectIsOpen: true
+        })
+    }
+
+    handleCloseProj = (e) => {
+        e.preventDefault()
+        this.setState({
+            addProjectIsOpen: false
+        })
     }
 
     fetchAssignedEmployees = (projectID) => {
@@ -168,13 +184,17 @@ export default class Project extends Component {
                                 )
                             }}
                             />
-                <button className="newItem">++<i className="fas fa-file-alt"></i></button>
-                <AddEmployee isOpen={this.state.isOpen} 
+                <button onClick={this.handleOpenProj} className="newItem">++<i className="fas fa-file-alt"></i></button>
+                <AddEmployee isOpen={this.state.addEmployeeIsOpen} 
                     handleClose={this.handleClose} 
                     projectDetails={this.state.projectList[this.state.currentProjectID-1]}
                     assignedEmployees={this.state.assignedEmployees[this.state.currentProjectID]}
                     fetchProjects={this.fetchProjects}
                     projectID={this.state.currentProjectID}/>
+                
+                <NewProject isOpen={this.state.addProjectIsOpen} 
+
+                    handleClose={this.handleCloseProj} />
                 <Link to="/schedule"><span>Calendar View</span></Link>
             </div>
         )

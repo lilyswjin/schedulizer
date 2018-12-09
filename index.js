@@ -29,17 +29,6 @@ const sequelize = new Sequelize('shoppr', 'root', 'root', {
 // set body parser for urlencoded and json
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-// app.use(cors);
-
-
-// set cors to all 
-// app.all('/*', function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-//     res.header("Access-Control-Allow-Headers", "Content-Type");
-//     next();
-// });
-
 
 // --- GET METHODS --- 
 
@@ -255,7 +244,6 @@ app.post('/clients', (req, res) => {
 
 // Set up a POST route at /employees that lets you add a new employee to the database
 
-
 app.post('/employees', (req, res) => {
     let { firstName, lastName, address } = req.body;
     
@@ -310,6 +298,24 @@ app.post('/employees', (req, res) => {
 // Set up a POST route at /projects that lets you add a new project to the database
 
 
+app.post('/projects', (req, res) => {
+    let {name, startDate, endDate, clientID} = req.body;
+
+    db.Project.create({
+        name: name,
+        start_date: startDate,
+        end_date: endDate,
+        client_id: clientID
+    })
+    .then( entry => {
+        return res.status(200).json(entry)
+    })
+    .catch( err => {
+        return res.status(500).json(err)
+    })
+})
+
+
 // Set up a POST route at /project that lets you assign a project id to an employee as well as a start date/ end date. if no end date, defaults to 1 day
 
 app.post('/project/:projectID', (req, res) => {
@@ -355,6 +361,7 @@ app.post('/project/:projectID', (req, res) => {
                     return res.status(200).json(entry)
                 })
                 .catch(err => {
+                    console.log(err)
                     return res.status(500).json(err);
                 })
         } else {

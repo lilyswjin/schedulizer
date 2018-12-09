@@ -14,7 +14,9 @@ export default class AddEmployee extends Component {
     startDate: new Date(),
     endDate: new Date(),
     selectedEmployeeID: -1,
-    searchText: ""
+    searchText: "",
+    errorMsg: "",
+    isValid: false
   }
 
   componentDidMount() {
@@ -47,11 +49,13 @@ export default class AddEmployee extends Component {
     let url = `http://localhost:8080/project/${this.props.projectID}`;
     let body = {
       employeeID: Number(this.state.selectedEmployeeID),
-      startDate: Date.parse(this.state.startDate),
-      endDate: Date.parse(this.state.endDate),
+      startDate: moment(this.state.startDate).startOf("day").valueOf(),
+      endDate: moment(this.state.endDate).endOf("day").valueOf(),
       projectStart: this.props.projectDetails.start_date,
       projectEnd: this.props.projectDetails.end_date
     }
+
+    console.log(body)
 
     let init = {
       method: "POST",
@@ -65,22 +69,53 @@ export default class AddEmployee extends Component {
     if (body.employeeID !== -1) {
       fetch(url, init)
           .then(res => {
-            res.json();
-            this.props.fetchProjects()
-            this.fetchEmployeeByLocation()
-          })
-          .then( data => { 
-            console.log(this.data)
+            // console.dir(res);
+            if (res.status === 500) {
+              this.setState({
+                errorMsg: "The selected employee has a conflict. Please resolve before assigning."
+              })
+            } else {
+
+              this.props.fetchProjects()
+              this.fetchEmployeeByLocation()
+            }
           })
           .catch(err => console.log(err))
     }
   }
 
+  validateForm = (e) => {
+
+
+    if (moment(this.state.startDate).startOf('day').valueOf() < this.props.projectDetails.start_date && moment(this.state.startDate).startOf('day').valueOf()  > this.props.projectDetails.end_date) {
+      this.setState({
+        errorMsg: "Start date must be within project dates!"
+      })
+    } else if ( moment(this.state.endDate).endOf("day").valueOf() < this.props.projectDetails.end_date && moment(this.state.endDate).endOf("day").valueOf() < this.props.projectDetails.start_date) {
+      this.setState({
+        errorMsg: "End date must be within project dates!"
+      })
+    } else if (moment(this.state.endDate).endOf("day").valueOf() < moment(this.state.startDate).startOf('day').valueOf()) {
+      this.setState({
+        errorMsg: "End date cannot be before start date!"
+      })
+    } else if (this.state.selectedEmployeeID < 0) {
+      this.setState({
+        errorMsg: "Please select an employee!"
+      })  
+    } else {
+      this.setState({
+        isValid: true
+      })
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-
-    this.scheduleEmployee()
-
+    this.validateForm();
+    if (this.state.isValid) {
+      this.scheduleEmployee()
+    }
   }
 
   handleSelect = (e) => {
@@ -236,8 +271,8 @@ export default class AddEmployee extends Component {
                 </label>
               </div>
               <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedulize!</button>
-            </form>
-
+            </form>      
+            <div>{this.state.errorMsg}</div>
         </div>
       </div>
     )
