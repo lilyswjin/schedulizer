@@ -3,7 +3,7 @@ import {isEmpty} from './utils';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-// import ReactTable from 'react-table';
+import ReactTable from 'react-table';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -13,7 +13,8 @@ export default class AddEmployee extends Component {
     employees: [],
     startDate: new Date(),
     endDate: new Date(),
-    selectedEmployeeID: -1
+    selectedEmployeeID: -1,
+    searchText: ""
   }
 
   componentDidMount() {
@@ -66,6 +67,7 @@ export default class AddEmployee extends Component {
           .then(res => {
             res.json();
             this.props.fetchProjects()
+            this.fetchEmployeeByLocation()
           })
           .then( data => { 
             console.log(this.data)
@@ -99,8 +101,13 @@ export default class AddEmployee extends Component {
     })
   }
 
-  render() {
+  handleSearch = (e) => {
+    this.setState({
+      searchText: e.target.value
+    })
+  }
 
+  render() {
 
     let projectInfo = () => {
       let result;
@@ -144,68 +151,62 @@ export default class AddEmployee extends Component {
 
     // set up data structure for react-table for presenting employee list
 
-    // const employeeData = this.state.employeeList ? this.state.employeeList.map( employee => {
-    //   return (
-    //     {
-    //       id: employee.id,
-    //       firstName: employee.first_name,
-    //       lastName: employee.last_name,
-    //       distance: parseFloat(Math.round(employee.distance * 100) / 100).toFixed(2) + 'km(s) away'
-    //     }
-    //   ) 
-    // }) : {}
+    let employeeList = this.state.employees ? this.state.employees : [];
 
-    // const employeeColumns = [
-    //   {
-    //     Header: "",
-    //     accessor: "",
-    //     Cell: row => {
-    //       return (
-    //         <input type="radio" name="addEmployee" value={row.original.id} onChange={this.handleSelect} ></input>
-    //       )
-    //     }
-    //   },
-    //   {
-    //     Header: "ID",
-    //     accessor: 'id'
-    //   }, 
-    //   {
-    //     Header: "First Name",
-    //     accessor: 'firstName'
-    //   },
-    //   {
-    //     Header: "Last Name",
-    //     accessor: 'lastName'
-    //   },
-    //   {
-    //     Header: "Travel Distance",
-    //     accessor: "distance"
-    //   }
-    // ]
+    let employeeData = this.state.employees ? employeeList
+      .filter((employee) => {
+        
+        let result = []
+        let regex = new RegExp(this.state.searchText, "i")
 
+        if (this.state.searchText === "") {
+          result = employee.id > 0
+        } else {
+          result = regex.test(employee.first_name) || regex.test(employee.last_name) 
+        }
 
+        return (
+          result
+        )
+      })
+      .map( employee => {
+      return (
+        {
+          id: employee.id,
+          firstName: employee.first_name,
+          lastName: employee.last_name,
+          distance: parseFloat(Math.round(employee.distance * 100) / 100).toFixed(2) + ' km'
+        }
+      ) 
+    }) : {}
 
-    let employeeList = () => {
-      let result;
-
-      if (!isEmpty(this.state.employees) ) {
-        result = this.state.employees.map((employee) => {
+    const employeeColumns = [
+      {
+        Header: "",
+        accessor: "",
+        Cell: row => {
           return (
-            <div className="addEmployee__list" key={employee.id}>
-              {/* <span><img src="./assets/icons/employee2.svg" height="25px" width="25px" alt="employee"/></span> */}
-              {/* <span>{employee.id}</span> */}
-              <input type="radio" name="addEmployee" value={employee.id} onChange={this.handleSelect} ></input>
-              <span>{employee.first_name}</span>
-              <span>{employee.last_name}</span>
-              <span>{parseFloat(Math.round(employee.distance * 100) / 100).toFixed(2)} km</span>
-            </div>
+            <input type="radio" name="addEmployee" value={row.original.id} onChange={this.handleSelect} ></input>
           )
-        })
-      } else {
-        result = <div></div>
+        }
+      },
+      {
+        Header: "ID",
+        accessor: 'id'
+      }, 
+      {
+        Header: "First Name",
+        accessor: 'firstName'
+      },
+      {
+        Header: "Last Name",
+        accessor: 'lastName'
+      },
+      {
+        Header: "Travel Distance",
+        accessor: "distance"
       }
-      return result
-    }
+    ]
 
     return (
       <div style={{...flex, display: this.props.isOpen ? 'flex' : 'none'}}>
@@ -214,25 +215,29 @@ export default class AddEmployee extends Component {
             <div className="project__details">
               {projectInfo()}
             </div>
-            <form className="addEmployee" >
-              <label className="addEmployee__date">
-                <div>Start Date</div>
-                <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart}/>
-              </label>
-              <label className="addEmployee__date">
-                <div>End Date</div>
-                <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd}/>
-              </label>
+            <form className="addEmployee__search" >
+              <div className="addEmployee__heading">Available Employees:</div>
+              <input type="text" id="searchbar" placeholder="Search employees" value={this.state.searchText} onChange={this.handleSearch} ></input>
             </form>
-            <div className="addEmployee__list">
-              <span></span> 
-              <span>First Name</span>
-              <span>Last Name</span>
-              <span>Travel Distance</span>
-            </div>
-            {employeeList()}
-            {/* <ReactTable data={employeeData} columns={employeeColumns} /> */}
-            <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedule Employee</button>
+            <ReactTable data={employeeData} 
+                        columns={employeeColumns} 
+                        className="addEmployee__table"
+                        sortable={false}
+                        showPagination={false}
+                        minRows={1}  />
+            <form className="addEmployee" >
+              <div className="addEmployee__heading">Employee Scheduled Duration:</div>
+              <div className="addEmployee__dates">
+                <label className="addEmployee__date">
+                  From: <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart}/>
+                </label>
+                <label className="addEmployee__date">
+                  To: <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd}/>
+                </label>
+              </div>
+              <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedulize!</button>
+            </form>
+
         </div>
       </div>
     )
