@@ -43,7 +43,6 @@ export default class NewEmployee extends Component {
     
         if (this.state.isValid) {
             this.newEmployee();
-            this.clearForm();
         }
     }
 
@@ -69,6 +68,8 @@ export default class NewEmployee extends Component {
             .then(res => {
                 console.log(res)
                 this.props.fetchEmployees();
+                this.clearForm();
+                this.props.handleClose();
             })
             .catch(err => console.log(err))
     }

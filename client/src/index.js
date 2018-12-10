@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+const dotenv = require('dotenv');
+dotenv.config(); // this line reads all key-value pairs from .env into process.env
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

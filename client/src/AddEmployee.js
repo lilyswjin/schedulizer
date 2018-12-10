@@ -6,6 +6,7 @@ import moment from 'moment';
 import ReactTable from 'react-table';
 
 import "react-datepicker/dist/react-datepicker.css";
+import Maps from './Maps';
 
 export default class AddEmployee extends Component {
 
@@ -247,33 +248,38 @@ export default class AddEmployee extends Component {
       <div style={{...flex, display: this.props.isOpen ? 'flex' : 'none'}}>
         <div className='modal-layer' onClick={this.props.handleClose} style={modalLayer}></div>
           <div className="form-container" style={formModal}>
-            <div className="project__details">
-              {projectInfo()}
-            </div>
-            <form className="addEmployee__search" >
-              <div className="addEmployee__heading">Available Employees:</div>
-              <input type="text" id="searchbar" placeholder="Search employees" value={this.state.searchText} onChange={this.handleSearch} ></input>
-            </form>
-            <ReactTable data={employeeData} 
-                        columns={employeeColumns} 
-                        className="addEmployee__table"
-                        sortable={false}
-                        showPagination={false}
-                        minRows={1}  />
-            <form className="addEmployee" >
-              <div className="addEmployee__heading">Employee Scheduled Duration:</div>
-              <div className="addEmployee__dates">
-                <label className="addEmployee__date">
-                  From: <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart}/>
-                </label>
-                <label className="addEmployee__date">
-                  To: <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd}/>
-                </label>
+            <div className="scheduler">
+              <div className="project__details">
+                {projectInfo()}
               </div>
-              <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedulize!</button>
-            </form>      
-            <div className="errorMsg">{this.state.errorMsg}</div>
-        </div>
+              <form className="addEmployee__search" >
+                <div className="addEmployee__heading">Available Employees:</div>
+                <input type="text" id="searchbar" placeholder="Search employees" value={this.state.searchText} onChange={this.handleSearch} ></input>
+              </form>
+              <ReactTable data={employeeData} 
+                          columns={employeeColumns} 
+                          className="addEmployee__table"
+                          sortable={false}
+                          showPagination={false}
+                          minRows={1}  />
+              <form className="addEmployee" >
+                <div className="addEmployee__heading">Employee Scheduled Duration:</div>
+                <div className="addEmployee__dates">
+                  <label className="addEmployee__date">
+                    From: <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart}/>
+                  </label>
+                  <label className="addEmployee__date">
+                    To: <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd}/>
+                  </label>
+                </div>
+                <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedulize!</button>
+              </form>      
+              <div className="errorMsg">{this.state.errorMsg}</div>
+            </div>
+            <div className="schedulerMap">
+              <Maps employees={this.state.employees} />
+            </div>
+          </div>
       </div>
     )
   }
@@ -312,7 +318,7 @@ const formModal = {
   position: 'absolute',
   color: 'rgb(57,57,57)',
   backgroundColor: '#FFFFFF',
-  width: '85vh',
+  width: '90%',
   maxWidth: '100%',
   height: '85vh',
   maxHeight: '100%',
@@ -320,7 +326,7 @@ const formModal = {
   borderRadius: '3px',
   overflow: 'auto',
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'row'
 };
 
 

@@ -96,14 +96,13 @@ export default class Project extends Component {
 
         fetch(url, init)
             .then( res => {
-                res.json();
+                console.log(res)
                 this.fetchProjects();
             })
     }
 
     removeEmployee = (e) => {
         let idStr = (e.target.name)
-
         if (idStr) {
             let arr = idStr.split(',')
             let projectID = Number(arr[0]);
@@ -214,7 +213,7 @@ export default class Project extends Component {
                     )
                 }
             ]
-
+        
             return (
                 <ReactTable data={employeeData}
                             columns={employeeColumns}
@@ -236,9 +235,15 @@ export default class Project extends Component {
                             defaultPageSize={15} 
                             className="-striped -highlight"
                             SubComponent = { row => {
+                                let result;
+                                if (row.original.assigned.length > 0) {
+                                    result = employeeTable(row.original.assigned)
+                                } else {
+                                    result = null;
+                                }
                                 return (
                                     <div>
-                                        {employeeTable(row.original.assigned)}
+                                        {result}
                                     </div>
                                 )
                             }}

@@ -75,7 +75,7 @@ export default class NewClient extends Component {
                 } else {
                     this.props.fetchClients();
                     this.clearForm();
-                    this.props.handleColose()
+                    this.props.handleClose()
                 }
 
             })

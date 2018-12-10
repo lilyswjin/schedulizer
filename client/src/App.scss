@@ -33,19 +33,19 @@ $white: white;
 
 .navbar {
   position: fixed;
-  min-width: 100vw;
+  min-width: 105vw;
   height: 1rem;
   color: white;
   background-color: $grey;
   display: flex;
-  align-items: center;
-  vertical-align: middle;
+  justify-content: flex-start;
+  // align-items: center;
   font-weight: bold;
-  padding: 2rem;
+  // padding: 2rem;
   box-shadow: 0 5px 10px rgba(0,0,0,.5);
   div.logo {
-    width: 20%;
-    padding-left: 2.5%;
+    width: 250px;
+    padding-left: 2rem;
     a:any-link {
       font-family: norwester;
       text-transform: uppercase;
@@ -53,10 +53,7 @@ $white: white;
     } 
   }
   &__links {
-    width: 80%;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 5%;
+    float: right;
 
   }
   a:any-link {
@@ -75,7 +72,7 @@ $white: white;
 .sidebar {
   display: flex;
   justify-content: space-evenly;
-  padding-top: 7.5%;
+  padding-top: 20vh;
   &__links {
     width: 80%;
     display: flex;
@@ -291,6 +288,8 @@ $white: white;
 
 .form-container {
   display: flex;
+  flex-direction: row;
+
   h1 {
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: bold;
@@ -317,7 +316,8 @@ $white: white;
   margin-bottom: 1rem;
   border-top-right-radius: 2rem;
   border-bottom-left-radius: 2rem;
-  margin: 2rem;
+  width: 100%;
+  // margin: 2rem;
   box-shadow: .25rem .5rem .1rem $palegrey;
   background: $lightblue;
   color: black;
@@ -350,10 +350,28 @@ $white: white;
   }
 }
 
+.scheduler {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  width: 50%;
+  padding: 2rem 0rem 0rem 2rem;
+}
+
+.schedulerMap {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  padding: 3rem;
+}
+
 .addEmployee {
   display: flex;
   flex-direction: column;
   border: 1px lightgray solid;
+  width: 100%;
   &__list {
     display: flex;
     flex-direction: row;
@@ -376,11 +394,17 @@ $white: white;
   &__dates {
     display: flex;
     justify-content: space-between;
+    .addEmployee__date {
+      input {
+        text-align: right;
+      }
+    }
   }
   &__search {
     display: flex;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    width: 100%;
+    // margin-left: 1rem;
+    // margin-right: 1rem;
     justify-content: space-between;
   }
   &__heading {
@@ -389,10 +413,10 @@ $white: white;
 }
 
 .addEmployee__table {
-  width: 92.5%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1rem;
+  width: 100%;
+  // margin-left: auto;
+  // margin-right: auto;
+  // margin-bottom: 1rem;
   height: 25%;
   .rt-thead, .-header, .rt-tbody .rt-tr-group {
     font-size: 1rem;
@@ -411,7 +435,6 @@ $white: white;
     }
   }
 }
-
 
 // styles for floating button
 .client, .employee, .project {
@@ -533,6 +556,7 @@ $white: white;
 }
 
 .schedule {
+
   a:any-link{
     color: white;
     .calendar {
@@ -562,6 +586,42 @@ $white: white;
     }
   }
 }
+
+
+
+.map__maker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // position: relative;
+  // display: inline-block;
+
+  i {
+    color: $gold;
+    font-size: 2vw;
+  }
+  // &--tooltip {
+  //   visibility: hidden;
+  //   width: 120px;
+  //   background-color: black;
+  //   color: #fff;
+  //   text-align: center;
+  //   padding: 5px 0;
+  //   border-radius: 6px;
+  
+  //   /* Position the tooltip text - see examples below! */
+  //   position: absolute;
+  //   z-index: 1;
+  //   &:hover {
+  //     visibility: visible;
+  //   }
+  // }
+}
+
+
+
 
 .project-newItem {
   top: 2.5rem;
