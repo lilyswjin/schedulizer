@@ -71,7 +71,6 @@ app.get('/projects', (req, res) => {
 
 });
 
-
 // Set up a GET route that sends back a list of employees already assigned to the project
 app.get('/projects/:projectID', (req, res) => {
     let assignedList = [];
@@ -184,6 +183,24 @@ app.get('/schedule/:projectID', (req, res) => {
             return res.status(500).json(err);
         })
     })   
+})
+
+// set up a GET route that returns the client info associated with the clientID
+app.get('/clients/:clientID', (req, res) => {
+
+    let clientID = req.params.clientID;
+
+    db.Client.findAll({
+        where: {
+            id: clientID
+        }
+    })
+    .then(clients => {
+        return res.status(200).json(clients)
+    })
+    .catch(err => {
+        return res.status(500).json(err);
+    })
 })
 
 
