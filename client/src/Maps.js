@@ -17,8 +17,8 @@ export default class Maps extends Component {
     
     render() {
     const KEY = process.env.REACT_APP_DEV_API_KEY || "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo";
-    console.log(process.env)
-    console.log(KEY)
+    // console.log(process.env)
+    // console.log(KEY)
 
     let renderMapMarker = () => {
         return (
@@ -29,6 +29,10 @@ export default class Maps extends Component {
                         lng={employee.long}
                         name={employee.first_name + " " + employee.last_name}
                         distance={employee.distance}
+                        type="employee"
+                        key={`emp${employee.id}`}
+                        text={employee.first_name + " " + employee.last_name}
+                        $hover={true}
                     />
                 )
             })
@@ -42,6 +46,15 @@ export default class Maps extends Component {
             defaultCenter={this.props.center}
             defaultZoom={this.props.zoom}
             >
+          
+            <MapMarker
+                lat={this.props.coord.lat}
+                lng={this.props.coord.long}
+                type="client"
+                text={this.props.coord.name}
+                distance={0}
+                $hover={true}
+            />
             {renderMapMarker()}
         </GoogleMapReact>
     )

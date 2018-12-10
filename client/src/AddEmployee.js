@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactTable from 'react-table';
-
 import "react-datepicker/dist/react-datepicker.css";
 import Maps from './Maps';
 
@@ -17,20 +16,39 @@ export default class AddEmployee extends Component {
     selectedEmployeeID: -1,
     searchText: "",
     errorMsg: "",
-    isValid: false
+    isValid: false,
+    clientDetails: {}
   }
 
   componentDidMount() {
     if (this.props.projectID !== null){
       this.fetchEmployeeByLocation(Number(this.props.projectID))
+     
     }
   }
 
   componentDidUpdate(prevProps, prevState){
     if (prevProps.projectID !== this.props.projectID) {
       this.fetchEmployeeByLocation(Number(this.props.projectID));
+      if (this.props.projectDetails) {
+        this.fetchClientDetail();
+      }
+
     }
+ 
   }
+
+  fetchClientDetail = () => {
+    // console.log(this.props.projectDetails.client_id)
+    fetch(`http://localhost:8080/clients/${this.props.projectDetails.client_id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          clientDetails: data[0]
+        })
+      })
+  }
+
 
   fetchEmployeeByLocation = (projectID) => {
     // retrieve list of employees not already assigned to the project
@@ -244,6 +262,26 @@ export default class AddEmployee extends Component {
       }
     ]
 
+  
+    let clientCoords = () => {
+      let result;
+      if (!isEmpty(this.state.clientDetails)) {
+       
+        result = {
+          lat: this.state.clientDetails.lat,
+          long: this.state.clientDetails.long,
+          name: this.state.clientDetails.name
+        }
+      } else {
+        result = {
+          lat: 43.645543000,
+          long: -79.395385000,
+          name: "BrainStation"
+        }
+      }
+      return result;
+    }
+
     return (
       <div style={{...flex, display: this.props.isOpen ? 'flex' : 'none'}}>
         <div className='modal-layer' onClick={this.props.handleClose} style={modalLayer}></div>
@@ -277,7 +315,7 @@ export default class AddEmployee extends Component {
               <div className="errorMsg">{this.state.errorMsg}</div>
             </div>
             <div className="schedulerMap">
-              <Maps employees={this.state.employees} />
+              <Maps employees={this.state.employees} coord={clientCoords()} />
             </div>
           </div>
       </div>
