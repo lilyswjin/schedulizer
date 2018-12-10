@@ -272,7 +272,7 @@ export default class AddEmployee extends Component {
               </div>
               <button className="addEmployee__btn" onClick={this.handleSubmit} >Schedulize!</button>
             </form>      
-            <div>{this.state.errorMsg}</div>
+            <div className="errorMsg">{this.state.errorMsg}</div>
         </div>
       </div>
     )

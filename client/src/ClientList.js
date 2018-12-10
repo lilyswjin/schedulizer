@@ -128,9 +128,9 @@ export default class ClientList extends Component {
 
         return (
             <div className="client">
-                <ReactTable data={data} columns={columns} defaultPageSize={8}  className="-striped -highlight" minRows={1}/>
+                <ReactTable data={data} columns={columns} defaultPageSize={15}  className="-striped -highlight" minRows={1}/>
                 <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-building"></i></button>
-                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose} /> 
+                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose} fetchClients={this.fetchClients} /> 
                 <NewProject isOpen={this.state.addProjectIsOpen} handleClose={this.handleCloseProj}  clientID={this.state.activeClientID} />
             </div>
         )

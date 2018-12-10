@@ -92,7 +92,9 @@ export default class Schedule extends Component {
     }
 
     return (
-      <div>
+      <div className="schedule">
+        <Link to="/schedule"><div className="calendar"><i className="fas fa-calendar-alt"></i> Calendar</div></Link>
+        <Link to="/projects"><div className="table"><i className="fas fa-list-alt"></i> List</div></Link>
         <Timeline
             groups={groups}
             items={items}
@@ -101,12 +103,11 @@ export default class Schedule extends Component {
             stackItems={true}
             timeSteps={{day:1}}
             sidebarContent={<div>Projects</div>}
-            sidebarWidth={100}
+            sidebarWidth={200}
             itemsSorted
             showCursorLine
             // resizeDetector={componentResizeDetector}
         />
-        <Link to="/projects"><span>Table View</span></Link>
       </div>
     )
   }

@@ -218,8 +218,9 @@ export default class Project extends Component {
             return (
                 <ReactTable data={employeeData}
                             columns={employeeColumns}
-                            minRows={1} 
+                            minRows={0} 
                             showPagination={false}
+                            className="employee__table"
                 />
             )
 
@@ -228,10 +229,11 @@ export default class Project extends Component {
 
         return (
             <div className="project">
-            
+                <Link to="/projects"><div className="table"><i className="fas fa-list-alt"></i> List</div></Link>
+                <Link to="/schedule"><div className="calendar"><i className="fas fa-calendar-alt"></i> Calendar</div></Link>
                 <ReactTable data={data} 
-                            columns={columns} minRows={1} 
-                            defaultPageSize={8} 
+                            columns={columns} minRows={0} 
+                            defaultPageSize={15} 
                             className="-striped -highlight"
                             SubComponent = { row => {
                                 return (
@@ -241,7 +243,7 @@ export default class Project extends Component {
                                 )
                             }}
                             />
-                <button onClick={this.handleOpenProj} className="newItem">++<i className="fas fa-file-alt"></i></button>
+                <button onClick={this.handleOpenProj} className="newItem project-newItem">++<i className="fas fa-file-alt"></i></button>
                 <AddEmployee isOpen={this.state.addEmployeeIsOpen} 
                     handleClose={this.handleClose} 
                     projectDetails={this.state.projectList[this.state.currentProjectID-1]}
@@ -252,7 +254,7 @@ export default class Project extends Component {
                 <NewProject isOpen={this.state.addProjectIsOpen} 
                     fetchProjects={this.fetchProjects}
                     handleClose={this.handleCloseProj} />
-                <Link to="/schedule"><span>Calendar View</span></Link>
+                
             </div>
         )
     }

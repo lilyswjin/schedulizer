@@ -41,7 +41,7 @@ export default class NewClient extends Component {
 
         if (this.state.isValid) {
             this.newClient();
-            this.clearForm();
+         
         }
     }
 
@@ -67,6 +67,17 @@ export default class NewClient extends Component {
         fetch(url, init)
             .then(res => {
                 console.log(res)
+                if (res.status === 500) {
+                    this.setState({
+                        isValid: false,
+                        errorMsg: "Invalid address entered!"
+                    })
+                } else {
+                    this.props.fetchClients();
+                    this.clearForm();
+                    this.props.handleColose()
+                }
+
             })
             .catch(err => console.log(err))
     }
@@ -115,6 +126,13 @@ export default class NewClient extends Component {
                 errMsg.postCode = "Invalid postal/zip code"
             }
         
+            // check for valid name
+            if (data.name !== "") {
+                isValid.name = true;
+            } else {
+                errMsg.name = "Invalid name!"
+            }
+
             // check for valid street address
             if (streetAddress.test(data.street)) {
                 isValid.street = true;
@@ -146,6 +164,7 @@ export default class NewClient extends Component {
 
         // if all conditions true, set state to isValid
         let result = true;
+
         for (let key in isValid) {
             if (isValid[key] === false ) {
                 result = false;

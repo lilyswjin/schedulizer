@@ -96,8 +96,8 @@ export default class EmployeeList extends Component {
 
         return (
             <div className="employee">
-              <ReactTable data={data} columns={columns} minRows={1} defaultPageSize={8} className="-striped -highlight" />
-              <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-male"></i></button>
+              <ReactTable data={data} columns={columns} minRows={1} defaultPageSize={15} className="-striped -highlight" />
+              <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-male"></i><i className="fas fa-male"></i></button>
               <NewEmployee isOpen={this.state.isOpen} handleClose={this.handleClose} fetchEmployees={this.fetchEmployees} />
             </div>
         )

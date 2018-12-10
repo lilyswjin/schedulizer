@@ -52,8 +52,8 @@ export default class NewProject extends Component {
 
         if (this.state.isValid) {
             this.newProject();
-            this.props.fetchProjects();
-            this.clearForm();
+       
+           
         }
     }
 
@@ -77,7 +77,17 @@ export default class NewProject extends Component {
         fetch(url, init)
             .then(res => {
                 console.log(res)
-               
+
+                if (res.status === 200) {
+                    this.props.fetchProjects();
+                    this.clearForm();
+                    this.props.handleClose();
+                } else {
+                    this.setState({
+                        errorMsg: "Internal server error. Please try again."
+                    })
+                }
+
             })
             .catch(err => console.log(err))
     }
@@ -199,7 +209,7 @@ const formModal = {
     backgroundColor: '#FFFFFF',
     minWidth: '50vh',
     maxWidth: '100%',
-    minHeight: '50vh',
+    minHeight: '70vh',
     maxHeight: '100%',
     zIndex: 2,
     borderRadius: '3px',
