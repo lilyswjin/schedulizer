@@ -46,7 +46,7 @@ export default class NewClient extends Component {
     }
 
     newClient = () => {
-        let addressString = (Object.values(this.state.formData).splice(2,5)).join(", ");
+        let addressString = (Object.values(this.state.formData).splice(1,5)).join(", ");
         console.log(addressString)
 
         let url = `http://localhost:8080/clients`;
@@ -68,9 +68,11 @@ export default class NewClient extends Component {
             .then(res => {
                 console.log(res)
                 if (res.status === 500) {
+                    let msg = this.state.formErrors
+                    msg.postCode = "Invalid address entered!"
                     this.setState({
                         isValid: false,
-                        errorMsg: "Invalid address entered!"
+                        formErrors: msg
                     })
                 } else {
                     this.props.fetchClients();
@@ -235,6 +237,7 @@ export default class NewClient extends Component {
                             <div className="errorMsg">{this.state.formErrors.country}</div>
                             <input name="postCode" placeholder="Postal Code" type="text" value={this.state.formData.postCode} onChange={this.handleInputChange} ></input>
                             <div className="errorMsg">{this.state.formErrors.postCode}</div>
+                            {/* <div className="errorMsg">{this.state.errorMsg}</div> */}
                         </label>
                         <input onClick={this.handleSubmit} type="submit"></input>
                     </form>

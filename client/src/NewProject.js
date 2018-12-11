@@ -7,7 +7,7 @@ import moment from 'moment';
 export default class NewProject extends Component {
 
     state = {
-        clientList: [],
+        // clientList: [],
         name: "",
         startDate: new Date(),
         endDate: new Date(),
@@ -27,17 +27,17 @@ export default class NewProject extends Component {
         })
     }
 
-    componentDidMount() {
-        this.fetchClients();
-    }
+    // componentDidMount() {
+    //     this.fetchClients();
+    // }
 
-    fetchClients = () => {
-        fetch("http://localhost:8080/clients")
-        .then(res => res.json())
-        .then(data => {
-            this.setState({clientList: data})
-        })  
-    }
+    // fetchClients = () => {
+    //     fetch("http://localhost:8080/clients")
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         this.setState({clientList: data})
+    //     })  
+    // }
 
     handleChange = (e) => {
         this.setState({
@@ -77,9 +77,9 @@ export default class NewProject extends Component {
         fetch(url, init)
             .then(res => {
                 console.log(res)
-
                 if (res.status === 200) {
-                    this.props.fetchProjects();
+                    
+                    // this.props.fetchClients();
                     this.clearForm();
                     this.props.handleClose();
                 } else {
@@ -118,8 +118,8 @@ export default class NewProject extends Component {
         const renderOptions = () => {
             let result;
 
-            if (this.state.clientList) {
-                result = this.state.clientList.map((client) => {
+            if (this.props.clientList) {
+                result = this.props.clientList.map((client) => {
                     let option;
                     if (Number(this.props.clientID) === client.id ) {
                         option = 
