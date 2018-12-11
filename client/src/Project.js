@@ -195,6 +195,7 @@ export default class Project extends Component {
 
         return (
             <div className="project">
+                <h1>PROJECTS</h1>
                 <Link to="/projects"><div className="table"><i className="fas fa-list-alt"></i> List</div></Link>
                 <Link to="/schedule"><div className="calendar"><i className="fas fa-calendar-alt"></i> Calendar</div></Link>
                 <ReactTable data={data} 
@@ -221,10 +222,12 @@ export default class Project extends Component {
                     projectDetails={this.props.projectList[this.state.currentProjectID-1]}
                     assignedEmployees={this.props.assignedEmployees[this.state.currentProjectID]}
                     fetchProjects={this.props.fetchProjects}
+                    clientDetails={this.props.clientList[this.state.currentProjectID]}
                     projectID={this.state.currentProjectID}/>
                 
                 <NewProject isOpen={this.state.addProjectIsOpen} 
                     fetchProjects={this.props.fetchProjects}
+                    clientList={this.props.clientList}
                     handleClose={this.handleCloseProj} />
                 
             </div>

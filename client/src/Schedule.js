@@ -69,6 +69,7 @@ export default class Schedule extends Component {
 
     return (
       <div className="schedule">
+        <h1>PROJECTS</h1>
         <Link to="/schedule"><div className="calendar"><i className="fas fa-calendar-alt"></i> Calendar</div></Link>
         <Link to="/projects"><div className="table"><i className="fas fa-list-alt"></i> List</div></Link>
         <Timeline

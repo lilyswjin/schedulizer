@@ -6,7 +6,7 @@ dotenv.config(); // this line reads all key-value pairs from .env into process.e
 
 const express = require('express'),
     PORT = process.env.PORT || 8181
-    KEY = process.env.API_KEY
+    KEY = process.env.REACT_APP_API_KEY
     bodyParser = require('body-parser'),
     app = express(),
     Sequelize = require('sequelize'),
@@ -212,11 +212,12 @@ app.post('/clients', (req, res) => {
     let { name, address } = req.body;
     
     let lat, long = 0;
-
+    
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`;
     
     // validation layer
-
+    
+    console.log(req.body.address)
     if (typeof address === "string" && typeof name === "string") {
 
         // send get request to API 
@@ -225,6 +226,7 @@ app.post('/clients', (req, res) => {
                 return resp.json()
             })
             .then(json => {
+                console.log(json)
                 lat = json.results[0].geometry.location.lat
                 long = json.results[0].geometry.location.lng
     

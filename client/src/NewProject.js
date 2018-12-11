@@ -27,18 +27,6 @@ export default class NewProject extends Component {
         })
     }
 
-    // componentDidMount() {
-    //     this.fetchClients();
-    // }
-
-    // fetchClients = () => {
-    //     fetch("http://localhost:8080/clients")
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         this.setState({clientList: data})
-    //     })  
-    // }
-
     handleChange = (e) => {
         this.setState({
             name: e.target.value
@@ -53,7 +41,7 @@ export default class NewProject extends Component {
         if (this.state.isValid) {
             this.newProject();
        
-           
+            this.props.handleClose();
         }
     }
 
@@ -79,9 +67,10 @@ export default class NewProject extends Component {
                 console.log(res)
                 if (res.status === 200) {
                     
-                    // this.props.fetchClients();
+                    this.props.fetchProjects();
                     this.clearForm();
-                    this.props.handleClose();
+                
+
                 } else {
                     this.setState({
                         errorMsg: "Internal server error. Please try again."

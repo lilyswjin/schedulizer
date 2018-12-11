@@ -16,8 +16,7 @@ export default class AddEmployee extends Component {
     selectedEmployeeID: -1,
     searchText: "",
     errorMsg: "",
-    isValid: false,
-    clientDetails: {}
+    isValid: false
   }
 
   componentDidMount() {
@@ -30,25 +29,8 @@ export default class AddEmployee extends Component {
   componentDidUpdate(prevProps, prevState){
     if (prevProps.projectID !== this.props.projectID) {
       this.fetchEmployeeByLocation(Number(this.props.projectID));
-      if (this.props.projectDetails) {
-        this.fetchClientDetail();
-      }
-
     }
- 
   }
-
-  fetchClientDetail = () => {
-    // console.log(this.props.projectDetails.client_id)
-    fetch(`http://localhost:8080/clients/${this.props.projectDetails.client_id}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          clientDetails: data[0]
-        })
-      })
-  }
-
 
   fetchEmployeeByLocation = (projectID) => {
     // retrieve list of employees not already assigned to the project
@@ -265,12 +247,12 @@ export default class AddEmployee extends Component {
   
     let clientCoords = () => {
       let result;
-      if (!isEmpty(this.state.clientDetails)) {
+      if (!isEmpty(this.props.clientDetails)) {
        
         result = {
-          lat: this.state.clientDetails.lat,
-          long: this.state.clientDetails.long,
-          name: this.state.clientDetails.name
+          lat: this.props.clientDetails.lat,
+          long: this.props.clientDetails.long,
+          name: this.props.clientDetails.name
         }
       } else {
         result = {

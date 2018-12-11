@@ -13,7 +13,7 @@ export default class Navbar extends Component {
       <nav className="navbar">
         <div className="logo"><NavLink to="/"><i className=" fas fa-pen-nib"></i>Schedulizer</NavLink></div>
         <div className="navbar__links">
-          
+          <i className="fas fa-cog"></i>
         </div>
       </nav>
     )

@@ -45,13 +45,38 @@ export default class Dashboard extends Component {
 
       data.labels = labels;
       data.datasets = datasets;
-
       return data;
     }
 
+    let projectsNotStarted = () => {
+      let data = {};
+      let labels = [
+        "Started",
+        "Not Started"
+      ];
+
+      let totalProj = this.props.projectList.length;
+      let unassigned =  unassignedProjects(this.props.assignedEmployees);
+      let assigned = totalProj - unassigned;
+
+      let datasets = [
+        {
+          label: "Projects Assigned",
+          backgroundColor: [
+            "rgb(58, 64, 77)", "rgb(168, 190, 211)"
+          ],
+          data: [
+            assigned, unassigned
+          ]
+        }
+      ]
+
+      data.labels = labels;
+      data.datasets = datasets;
+
+      return data;
+    }
   
-
-
     return (
       <div className="dashboard"> 
         <div className="dashboard__top">
@@ -61,6 +86,7 @@ export default class Dashboard extends Component {
         <div className="bubble">
           <Link to="/clients"><div className="bubble__client">{this.props.clientList.length} <i className="fas fa-building"></i></div></Link>
           <Link to="/projects"><div className="bubble__project">{this.props.projectList.length} <i className="fas fa-file-alt"></i></div></Link>
+          <Link to="/schedule"><div className="bubble__project">{this.props.projectList.length} <i className="fas fa-calendar-alt"></i></div></Link>
           <Link to="/employees"><div className="bubble__employee">{this.props.employeeList.length} <i className="fas fa-male"></i><i className="fas fa-male"></i></div></Link>
         </div>
         <div className="dashboard__overview">
@@ -91,7 +117,7 @@ export default class Dashboard extends Component {
             <div className="donut" >
              <h2>Ongoing Projects</h2>
                 <Doughnut 
-                  data={employeeUtilization()}
+                  data={projectsNotStarted()}
                   width={50}
                   height={50}  
                 />
