@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from './MapMarker';
+// import {GoogleApiWrapper} from 'google-map-react';
 
-require('dotenv').config();
+// require('dotenv').config();
 
 export default class Maps extends Component {
     
@@ -16,9 +17,8 @@ export default class Maps extends Component {
     
     
     render() {
-    const KEY = process.env.REACT_APP_DEV_API_KEY || "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo";
     // console.log(process.env)
-    // console.log(KEY)
+    const KEY = process.env.REACT_APP_MAP_API_KEY;
 
     let renderMapMarker = () => {
         return (
@@ -60,4 +60,3 @@ export default class Maps extends Component {
     )
   }
 }
-
