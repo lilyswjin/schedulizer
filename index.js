@@ -139,48 +139,48 @@ app.get('/schedule/:projectID', (req, res) => {
         ]
     })
     .then( project => {
-       let client = project.Client.dataValues;
+        let client = project.Client.dataValues;
      
         clientLat = Number(client.lat);
         clientLong = Number(client.long);
-    })
 
-    // find all employees already scheduled on this project
-    db.Schedule.findAll({
-        where: {
-            project_id: projectID
-        }
-    })
-    .then( assignedEmployees => {
-        assigned = (assignedEmployees.map(employee => {
-            return employee.dataValues.employee_id
-        }))
-
-        // return list of all employees that are not already assigned to the current project
-        db.Employee.findAll({
+        // find all employees already scheduled on this project
+        db.Schedule.findAll({
             where: {
-                id: {
-                    [Op.notIn]:  assigned
-                },
+                project_id: projectID
             }
         })
-        .then(employees => {
-            let employeeList = employees.map( (employee) => {
-                return employee.dataValues
+        .then( assignedEmployees => {
+            assigned = (assignedEmployees.map(employee => {
+                return employee.dataValues.employee_id
+            }))
+
+            // return list of all employees that are not already assigned to the current project
+            db.Employee.findAll({
+                where: {
+                    id: {
+                        [Op.notIn]:  assigned
+                    },
+                }
             })
-      
-            // for each employee, use distance() to calculate and store the distance from the client
-            employeeList.forEach(employee => {
-                let travelDist = distance(employee.long, employee.lat, clientLong, clientLat, "K" )
-                employee.distance = travelDist
-            });
-    
-            employeeList.sort((a, b) => a.distance - b.distance);
-    
-            return res.status(200).json(employeeList)
-        })
-        .catch(err => {
-            return res.status(500).json(err);
+            .then(employees => {
+                let employeeList = employees.map( (employee) => {
+                    return employee.dataValues
+                })
+
+                // for each employee, use distance() to calculate and store the distance from the client
+                employeeList.forEach(employee => {
+                    let travelDist = distance(employee.lat, employee.long, clientLat, clientLong, "K" )
+                    employee.distance = travelDist
+                });
+
+                employeeList.sort((a, b) => a.distance - b.distance);
+
+                return res.status(200).json(employeeList)
+            })
+            .catch(err => {
+                return res.status(500).json(err);
+            })
         })
     })   
 })

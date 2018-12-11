@@ -105,6 +105,7 @@ $white: white;
 main.main {
   height: 100%;
   width: 100%;
+  background-color: white;
 }
 
 .main {
@@ -602,10 +603,102 @@ main.main {
     }
 }
 
-
 .project-newItem {
   top: 2.5rem;
 }
+
+@mixin dashboard-cards {
+  padding: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgb(213, 233, 255);
+  box-shadow: 4px 4px 5px rgb(147, 172, 192);
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  // background-color: $white;
+  overflow-y: scroll;
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  div.bubble {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-bottom: 1rem;
+    a:any-link {
+      text-decoration: none;
+      color: $grey;
+    }
+    div {
+      justify-content: center;
+      align-content: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+    
+      &:hover {
+        color: $blue;
+        // background-color: $lightblue;
+      }
+    
+    }
+  }
+  &__overview {
+    // background-color: rgb(219, 235, 255);
+    @include dashboard-cards();
+    padding-top: 1rem;
+    height: 15vh;
+  }
+  &__deadlines {
+    @include dashboard-cards();
+    height: 50vh;
+    padding-bottom: 3rem;
+    width: 25vw;
+    // background-color: rgb(219, 235, 255);
+    &--projects {
+      height: 100%;
+      overflow-y: scroll;
+      &--card {
+        background-color: white;
+        color: $grey;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+    }
+    div {
+      padding: 1rem;
+    }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__charts {
+    @include dashboard-cards();
+    margin-left: 2rem;
+  }
+
+  .donut {
+    height: 40vh;
+    width: 40vh;
+  }
+
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 @media only screen and (max-width: 950px) {
 

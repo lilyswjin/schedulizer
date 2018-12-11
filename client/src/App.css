@@ -189,6 +189,7 @@
 main.main {
   height: 100%;
   width: 100%;
+  background-color: white;
 }
 
 .main {
@@ -885,5 +886,144 @@ main.main {
 
 .project-newItem {
   top: 2.5rem;
+}
+
+.dashboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.dashboard__top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.dashboard div.bubble {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.dashboard div.bubble a:-webkit-any-link {
+  text-decoration: none;
+  color: #262a33;
+}
+
+.dashboard div.bubble a:-moz-any-link {
+  text-decoration: none;
+  color: #262a33;
+}
+
+.dashboard div.bubble a:any-link {
+  text-decoration: none;
+  color: #262a33;
+}
+
+.dashboard div.bubble div {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.dashboard div.bubble div:hover {
+  color: #55aef7;
+}
+
+.dashboard__overview {
+  padding: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: #d5e9ff;
+  -webkit-box-shadow: 4px 4px 5px #93acc0;
+          box-shadow: 4px 4px 5px #93acc0;
+  padding-top: 1rem;
+  height: 15vh;
+}
+
+.dashboard__deadlines {
+  padding: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: #d5e9ff;
+  -webkit-box-shadow: 4px 4px 5px #93acc0;
+          box-shadow: 4px 4px 5px #93acc0;
+  height: 50vh;
+  padding-bottom: 3rem;
+  width: 25vw;
+}
+
+.dashboard__deadlines--projects {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.dashboard__deadlines--projects--card {
+  background-color: white;
+  color: #262a33;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard__deadlines div {
+  padding: 1rem;
+}
+
+.dashboard__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.dashboard__charts {
+  padding: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: #d5e9ff;
+  -webkit-box-shadow: 4px 4px 5px #93acc0;
+          box-shadow: 4px 4px 5px #93acc0;
+  margin-left: 2rem;
+}
+
+.dashboard .donut {
+  height: 40vh;
+  width: 40vh;
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }
 /*# sourceMappingURL=App.css.map */

@@ -3,44 +3,12 @@ import {Link} from 'react-router-dom'
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
-// import componentResizeDetector from 'react-calendar-timeline/lib/resize-detector'
+import uuid from 'uuid';
 
 export default class Schedule extends Component {
   state = {
-      projectList: [],
-      assignedEmployees: {},
       isOpen: false,
       currentProjectID: null
-  }
-
-  componentDidMount() {
-      this.fetchProjects();
-  }
-
-  fetchProjects = () => {
-      fetch("http://localhost:8080/projects")
-      .then(res => res.json())
-      .then(data => {
-          this.setState({projectList: data})
-          data.forEach((project, i) => {
-              return this.fetchAssignedEmployees(project.id);
-          })
-
-      })  
-  }
-
-  fetchAssignedEmployees = (projectID) => {
-    // retrieve list of assigned employees
-    fetch(`http://localhost:8080/projects/${projectID}`)
-    .then(res => res.json())
-    .then(data => {
-        let employeeArray = this.state.assignedEmployees;        
-        employeeArray[projectID] = data
-    
-        this.setState({
-            assignedEmployees: employeeArray
-        })
-    })  
   }
 
   groupRenderer = ({ group }) => {
@@ -53,10 +21,7 @@ export default class Schedule extends Component {
   }
 
   render() {
-
-    // const groups = [{ id: 1, title: 'group 1' }, { id: 2, title: 'group 2' }]
-
-    const groups = this.state.projectList ? this.state.projectList.map( project => {
+    const groups = this.props.projectList ? this.props.projectList.map( project => {
       return (
         {
           id: project.id,
@@ -69,15 +34,26 @@ export default class Schedule extends Component {
 
 
     let items = [];
-    let employees = this.state.assignedEmployees
-
+    let employees = this.props.assignedEmployees
+    let keys = {
+      groupIdKey: 'id',
+      groupTitleKey: 'title',
+      groupRightTitleKey: 'rightTitle',
+      groupLabelKey: 'title', // key for what to show in `InfoLabel`
+      itemIdKey: `id`,
+      itemTitleKey: 'title',    // key for item div content
+      itemDivTitleKey: 'title', // key for item div title (<div title="text"/>)
+      itemGroupKey: 'group',
+      itemTimeStartKey: 'start_time',
+      itemTimeEndKey: 'end_time',
+    }
    
     for (let key in employees) {
       if (employees.hasOwnProperty(key)) {
         if (employees[key].length > 0) {
           employees[key].forEach((employee) => {
             items.push({
-              id: employee.id,
+              id: uuid() + employee.id,
               group: key,
               title: employee.last_name + ", " + employee.first_name,
               start_time: moment(employee.start_date).startOf("day"),
@@ -97,6 +73,7 @@ export default class Schedule extends Component {
         <Link to="/projects"><div className="table"><i className="fas fa-list-alt"></i> List</div></Link>
         <Timeline
             groups={groups}
+            keys={keys}
             items={items}
             defaultTimeStart={moment().startOf("day").add(-3, 'day')}
             defaultTimeEnd={moment().endOf("day").add(3, 'day')}
@@ -106,7 +83,6 @@ export default class Schedule extends Component {
             sidebarWidth={200}
             itemsSorted
             showCursorLine
-            // resizeDetector={componentResizeDetector}
         />
       </div>
     )
