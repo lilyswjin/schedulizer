@@ -10,24 +10,24 @@ import NewProject from './NewProject';
 export default class ClientList extends Component {
 
     state = {
-        clientList: [],
+        // clientList: [],
         // dropdownOpen: false,
         isOpen: false,
         addProjectIsOpen: false,
         activeClientID: null
     }
 
-    componentDidMount() {
-        this.fetchClients();
-    }
+    // componentDidMount() {
+    //     this.fetchClients();
+    // }
 
-    fetchClients = () => {
-        fetch("http://localhost:8080/clients")
-        .then(res => res.json())
-        .then(data => {
-            this.setState({clientList: data})
-        })  
-    }
+    // fetchClients = () => {
+    //     fetch("http://localhost:8080/clients")
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         this.setState({clientList: data})
+    //     })  
+    // }
 
     toggle = () => {
         this.setState( prevState => ({
@@ -52,7 +52,6 @@ export default class ClientList extends Component {
     handleOpenProj = (e) => {
         e.preventDefault()
         let clientID = e.target.name
-        console.log("hit")
         this.setState({
             addProjectIsOpen: true
         })
@@ -84,15 +83,15 @@ export default class ClientList extends Component {
 
         fetch(url, init)
             .then( res => {
+                this.props.fetchClients();
                 res.json();
-                this.fetchClients();
             })
     }
 
     render() {
 
         // set up data structure for react table
-        const data = this.state.clientList.map((client)=>{
+        const data = this.props.clientList.map((client)=>{
             return (
                 {
                     id: client.id,
@@ -130,8 +129,8 @@ export default class ClientList extends Component {
             <div className="client">
                 <ReactTable data={data} columns={columns} defaultPageSize={15}  className="-striped -highlight" minRows={1}/>
                 <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-building"></i></button>
-                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose} fetchClients={this.fetchClients} /> 
-                <NewProject isOpen={this.state.addProjectIsOpen} handleClose={this.handleCloseProj}  clientID={this.state.activeClientID} />
+                <NewClient isOpen={this.state.isOpen} handleClose={this.handleClose} fetchClients={this.props.fetchClients} /> 
+                <NewProject isOpen={this.state.addProjectIsOpen} handleClose={this.handleCloseProj}  clientID={this.state.activeClientID} clientList={this.props.clientList} />
             </div>
         )
     }

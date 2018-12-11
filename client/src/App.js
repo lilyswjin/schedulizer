@@ -17,7 +17,20 @@ class App extends Component {
       name: "BrainStation",
       lat: 43.645543000,
       long: -79.395385000,
-    }
+    },
+    clientList: [],
+  }
+
+  componentDidMount() {
+    this.fetchClients();
+  }
+
+  fetchClients = () => {
+      fetch("http://localhost:8080/clients")
+      .then(res => res.json())
+      .then(data => {
+          this.setState({clientList: data})
+      })  
   }
 
 
@@ -32,7 +45,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Dashboard} />
               <Route path="/employees" exact component={EmployeeList} />
-              <Route path="/clients" exact component={ClientList} />
+              <Route path="/clients" exact render={(routeProps) => <ClientList {...routeProps} clientList={this.state.clientList} fetchClients={this.fetchClients} />}/>
               <Route path="/projects" exact component={Project} />
               {/* <Route path="/projects/:id" exact component={AddEmployee} /> */}
               <Route path="/schedule" exact component={Schedule} />
