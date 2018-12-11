@@ -5,7 +5,6 @@ import Sidebar from './Sidebar'
 import EmployeeList from './EmployeeList';
 import ClientList from './ClientList';
 import Project from './Project';
-import Maps from './Maps';
 import './App.css';
 import Schedule from './Schedule';
 import Dashboard from './Dashboard';
@@ -19,10 +18,15 @@ class App extends Component {
       long: -79.395385000,
     },
     clientList: [],
+    projectList: [],
+    employeeList: [],
+    assignedEmployees: {},
   }
 
   componentDidMount() {
     this.fetchClients();
+    this.fetchProjects();
+    this.fetchEmployees();
   }
 
   fetchClients = () => {
@@ -33,6 +37,39 @@ class App extends Component {
       })  
   }
 
+  fetchProjects = () => {
+    fetch("http://localhost:8080/projects")
+    .then(res => res.json())
+    .then(data => {
+        this.setState({projectList: data})
+        data.forEach((project, i) => {
+            return this.fetchAssignedEmployees(project.id);
+        })
+
+    })  
+  }
+
+  fetchEmployees = () => {
+    fetch("http://localhost:8080/employees")
+    .then(res => res.json())
+    .then(data => {
+        this.setState({employeeList: data})
+    })  
+  }
+
+  fetchAssignedEmployees = (projectID) => {
+    // retrieve list of assigned employees
+    fetch(`http://localhost:8080/projects/${projectID}`)
+    .then(res => res.json())
+    .then(data => {
+        let employeeArray = this.state.assignedEmployees;        
+        employeeArray[projectID] = data
+    
+        this.setState({
+            assignedEmployees: employeeArray
+        })
+    })  
+  }
 
   render() {
     return (
@@ -44,12 +81,10 @@ class App extends Component {
             <section className="section">
             <Switch>
               <Route path="/" exact component={Dashboard} />
-              <Route path="/employees" exact component={EmployeeList} />
+              <Route path="/employees" exact render={(routeProps) => <EmployeeList {...routeProps} employeeList={this.state.employeeList} fetchEmployees={this.fetchEmployees} /> } />
               <Route path="/clients" exact render={(routeProps) => <ClientList {...routeProps} clientList={this.state.clientList} fetchClients={this.fetchClients} />}/>
-              <Route path="/projects" exact component={Project} />
-              {/* <Route path="/projects/:id" exact component={AddEmployee} /> */}
+              <Route path="/projects" exact render={(routeProps) => <Project {...routeProps} projectList={this.state.projectList} assignedEmployees={this.state.assignedEmployees} fetchProjects={this.fetchProjects} /> } />
               <Route path="/schedule" exact component={Schedule} />
-              <Route path="/map" exact component={Maps} />
             </Switch>
             </section>
           </main>

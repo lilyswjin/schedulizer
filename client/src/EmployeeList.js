@@ -8,20 +8,7 @@ import NewEmployee from './NewEmployee';
 export default class EmployeeList extends Component {
 
     state = {
-        employeeList: [],
         isOpen: false
-    }
-
-    componentDidMount() {
-        this.fetchEmployees();
-    }
-
-    fetchEmployees = () => {
-        fetch("http://localhost:8080/employees")
-        .then(res => res.json())
-        .then(data => {
-            this.setState({employeeList: data})
-        })  
     }
 
     handleClose = (e) => {
@@ -52,12 +39,12 @@ export default class EmployeeList extends Component {
         fetch(url, init)
             .then( res => {
                 res.json();
-                this.fetchEmployees();
+                this.props.fetchEmployees();
             })
     }
 
     render() {
-        const data = this.state.employeeList.map((employee)=>{
+        const data = this.props.employeeList.map((employee)=>{
             return (
                 {
                     id: employee.id,
@@ -98,7 +85,7 @@ export default class EmployeeList extends Component {
             <div className="employee">
               <ReactTable data={data} columns={columns} minRows={1} defaultPageSize={15} className="-striped -highlight" />
               <button onClick={this.handleOpen} className="newItem">++<i className="fas fa-male"></i><i className="fas fa-male"></i></button>
-              <NewEmployee isOpen={this.state.isOpen} handleClose={this.handleClose} fetchEmployees={this.fetchEmployees} />
+              <NewEmployee isOpen={this.state.isOpen} handleClose={this.handleClose} fetchEmployees={this.props.fetchEmployees} />
             </div>
         )
     }

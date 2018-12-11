@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import moment from 'moment';
-// import {isEmpty} from './utils';
 import ReactTable from 'react-table';
 import AddEmployee from './AddEmployee';
 import NewProject from './NewProject';
@@ -9,28 +8,10 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 export default class Project extends Component {
     state = {
-        projectList: [],
-        assignedEmployees: {},
         addEmployeeIsOpen: false,
         addProjectIsOpen: false,
         currentProjectID: null,
         table: true
-    }
-
-    componentDidMount() {
-        this.fetchProjects();
-    }
-
-    fetchProjects = () => {
-        fetch("http://localhost:8080/projects")
-        .then(res => res.json())
-        .then(data => {
-            this.setState({projectList: data})
-            data.forEach((project, i) => {
-                return this.fetchAssignedEmployees(project.id);
-            })
-
-        })  
     }
 
     handleClose = (e) => {
@@ -70,20 +51,6 @@ export default class Project extends Component {
         })
     }
 
-    fetchAssignedEmployees = (projectID) => {
-        // retrieve list of assigned employees
-        fetch(`http://localhost:8080/projects/${projectID}`)
-        .then(res => res.json())
-        .then(data => {
-            let employeeArray = this.state.assignedEmployees;        
-            employeeArray[projectID] = data
-        
-            this.setState({
-                assignedEmployees: employeeArray
-            })
-        })  
-    }
-
     deleteProject = (e) => {
         let id = e.target.name
         let url = `http://localhost:8080/projects/${id}`;
@@ -97,7 +64,7 @@ export default class Project extends Component {
         fetch(url, init)
             .then( res => {
                 console.log(res)
-                this.fetchProjects();
+                this.props.fetchProjects();
             })
     }
 
@@ -119,7 +86,7 @@ export default class Project extends Component {
             fetch(url, init)
                 .then( res => {
                     console.dir(res)
-                    this.fetchProjects();
+                    this.props.fetchProjects();
                 })
         }
     }
@@ -127,14 +94,14 @@ export default class Project extends Component {
 
     render() {
 
-        const data = this.state.projectList.map((project)=>{
+        const data = this.props.projectList.map((project)=>{
             return (
                 {
                     id: project.id,
                     projectName: project.name,
                     startDate: moment(project.start_date).format("MM/DD/YYYY"),
                     endDate: moment(project.end_date).format("MM/DD/YYYY"),
-                    assigned: this.state.assignedEmployees[project.id] ? this.state.assignedEmployees[project.id].map( employee => {
+                    assigned: this.props.assignedEmployees[project.id] ? this.props.assignedEmployees[project.id].map( employee => {
                         return {
                             id: employee.id,
                             first_name: employee.first_name,
@@ -251,13 +218,13 @@ export default class Project extends Component {
                 <button onClick={this.handleOpenProj} className="newItem project-newItem">++<i className="fas fa-file-alt"></i></button>
                 <AddEmployee isOpen={this.state.addEmployeeIsOpen} 
                     handleClose={this.handleClose} 
-                    projectDetails={this.state.projectList[this.state.currentProjectID-1]}
-                    assignedEmployees={this.state.assignedEmployees[this.state.currentProjectID]}
-                    fetchProjects={this.fetchProjects}
+                    projectDetails={this.props.projectList[this.state.currentProjectID-1]}
+                    assignedEmployees={this.props.assignedEmployees[this.state.currentProjectID]}
+                    fetchProjects={this.props.fetchProjects}
                     projectID={this.state.currentProjectID}/>
                 
                 <NewProject isOpen={this.state.addProjectIsOpen} 
-                    fetchProjects={this.fetchProjects}
+                    fetchProjects={this.props.fetchProjects}
                     handleClose={this.handleCloseProj} />
                 
             </div>
