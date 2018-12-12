@@ -10,24 +10,10 @@ import NewProject from './NewProject';
 export default class ClientList extends Component {
 
     state = {
-        // clientList: [],
-        // dropdownOpen: false,
         isOpen: false,
         addProjectIsOpen: false,
         activeClientID: null
     }
-
-    // componentDidMount() {
-    //     this.fetchClients();
-    // }
-
-    // fetchClients = () => {
-    //     fetch("http://localhost:8080/clients")
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         this.setState({clientList: data})
-    //     })  
-    // }
 
     toggle = () => {
         this.setState( prevState => ({

@@ -35,7 +35,7 @@ $white: white;
 .navbar {
   position: fixed;
   min-width: 100%;
-  height: 1rem;
+  height: 7rem;
   color: white;
   display: flex;
   background-color: $grey;
@@ -51,17 +51,16 @@ $white: white;
     a:any-link {
       font-family: norwester;
       text-transform: uppercase;
-      font-size: 25px;
+      font-size: 3rem;
     } 
   }
   &__links {
     position: absolute;
     right: 4rem;
     font-size: 2.5rem;
-    
+    animation: spin 5s linear infinite;
     i {
       &:hover {
-        animation: spin 2s linear infinite;
         color: $gold;
         cursor: pointer;
       }
@@ -129,7 +128,7 @@ main.main {
 }
 
 .section {
-  padding-top: 8rem;
+  padding-top: 9rem;
   width: 100%;
   margin-left: 1rem;
   margin-right: 2rem;
@@ -240,6 +239,7 @@ main.main {
 .new__form {
   display: flex;
   height: 100%;
+  height: 60vh;
   flex-direction: column;
   justify-content: space-evenly;
   input {
@@ -672,7 +672,7 @@ main.main {
   }
   &__deadlines {
     @include dashboard-cards();
-    height: 50vh;
+    height: 55vh;
     padding-bottom: 3rem;
     width: 25vw;
     // background-color: rgb(219, 235, 255);
@@ -694,6 +694,7 @@ main.main {
   &__row {
     display: flex;
     justify-content: space-between;
+
   }
 
   &__charts {
@@ -704,6 +705,9 @@ main.main {
   .donut {
     height: 40vh;
     width: 40vh;
+    h2 {
+      padding-bottom: 4rem;
+    }
   }
 
 }

@@ -58,7 +58,6 @@ class App extends Component {
   }
 
   fetchAssignedEmployees = (projectID) => {
-    // retrieve list of assigned employees
     fetch(`http://localhost:8080/projects/${projectID}`)
     .then(res => res.json())
     .then(data => {

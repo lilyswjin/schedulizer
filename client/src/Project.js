@@ -63,7 +63,7 @@ export default class Project extends Component {
 
         fetch(url, init)
             .then( res => {
-                console.log(res)
+                // console.log(res)
                 this.props.fetchProjects();
             })
     }
@@ -85,7 +85,7 @@ export default class Project extends Component {
     
             fetch(url, init)
                 .then( res => {
-                    console.dir(res)
+                    // console.dir(res)
                     this.props.fetchProjects();
                 })
         }

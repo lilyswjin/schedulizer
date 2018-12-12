@@ -92,9 +92,8 @@ export default class Dashboard extends Component {
         <div className="dashboard__overview">
           <h2>Overview</h2>
           <div>You have not assigned any employees to {unassignedProjects(this.props.assignedEmployees)} projects.</div>
-          
           <div>
-
+            
           </div>
         </div>
       
