@@ -14,15 +14,20 @@ This application was built using React for front-end, express.js for back-end wi
 
 **Core Features**:
 
-1) Project List
-
-- Show a list of all projects along with employees assigned
-- Ability to add projects, delete projects, and add employees: 
-
-2) Project Calendar
-- Displays gantt chart of employees assigned to each project
-
-2) Schedule Employee
+Schedule Employee
 - Brings up a panel showing a list of available employees, sorted by the physical distance from the client's location 
 - Makes calls to google maps geolocation API to graphically represent distances 
+![Screenshot](/client/public/assets/screenshots/ScheduleEmployeeView.png)
 
+Project List
+- Show a list of all projects along with employees assigned
+- Ability to add projects, delete projects, and add employees: 
+![Screenshot](/client/public/assets/screenshots/ProjectList.png)
+
+Project Calendar
+- Displays gantt chart of employees assigned to each project
+![Screenshot](/client/public/assets/screenshots/ProjectCalendar.png)
+
+Dashboard
+- Uses Chart.js to display real-time statistics for your projects
+![Screenshot](/client/public/assets/screenshots/SchedulizerDashboard.png)
